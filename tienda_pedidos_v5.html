@@ -1,0 +1,1331 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Groceries Shopping | Private Chef Los Cabos &amp; Travel Boutique</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#efe8d9;
+    --cream-2:#e4dac2;
+    --panel:#fffdf8;
+    --ink:#2b2723;
+    --ink-soft:#5c5548;
+    --line:#ddd2b6;
+    --gold:#b28c53;
+    --gold-dark:#8f6f3f;
+    --radius:10px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:Arial,Helvetica,sans-serif;
+    background:var(--cream);
+    color:var(--ink);
+  }
+  h1,h2,h3,.serif{
+    font-family:"Playfair Display",Georgia,serif;
+    font-weight:600;
+    color:var(--ink);
+  }
+  a{color:var(--gold-dark);}
+
+  header.top{
+    background:var(--cream);
+    border-bottom:1px solid var(--line);
+    padding:20px 24px 22px;
+    position:sticky;
+    top:0;
+    z-index:20;
+  }
+  .brand-nav{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:8px;
+    max-width:1300px;
+    margin:0 auto 14px;
+    text-align:center;
+  }
+  .brand-nav img.whale-logo{
+    height:72px;
+    width:auto;
+  }
+  .site-nav{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:22px;
+    flex-wrap:wrap;
+  }
+  .site-nav a{
+    font-size:.78rem;
+    letter-spacing:.4px;
+    text-decoration:underline;
+    color:var(--ink);
+  }
+  .site-nav a:hover{color:var(--gold-dark);}
+  .brand-text{
+    max-width:1300px;
+    margin:0 auto;
+    text-align:center;
+  }
+  .brand-text .eyebrow{
+    font-size:.68rem;
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+    color:var(--gold-dark);
+    font-weight:700;
+    margin:0 0 2px;
+  }
+  header.top h1{
+    margin:0 0 4px;
+    font-size:1.55rem;
+    letter-spacing:.2px;
+  }
+  header.top p.tag{
+    margin:0;
+    font-size:.85rem;
+    color:var(--ink-soft);
+    font-style:italic;
+  }
+  .search-bar{
+    margin-top:14px;
+    display:flex;
+    gap:8px;
+    max-width:1300px;
+    margin-left:auto;
+    margin-right:auto;
+  }
+  .search-bar input{
+    flex:1;
+    padding:10px 14px;
+    border-radius:999px;
+    border:1px solid var(--line);
+    font-size:.9rem;
+    outline:none;
+    background:var(--panel);
+    color:var(--ink);
+  }
+  .layout{
+    display:flex;
+    max-width:1300px;
+    margin:0 auto;
+    align-items:flex-start;
+    gap:0;
+  }
+
+  /* ---------- Step: contact & delivery details (shown once the cart has items) ---------- */
+  .info-card{
+    border-top:1px solid var(--line);
+    padding-top:14px;
+    margin-top:10px;
+  }
+  .info-card h2{
+    margin:0 0 4px;
+    font-size:.98rem;
+  }
+  .info-card .step-note{
+    font-size:.74rem;
+    color:var(--ink-soft);
+    margin:0 0 12px;
+    line-height:1.4;
+  }
+  .info-grid{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:10px;
+  }
+  .info-grid .full{grid-column:1/-1;}
+  .info-field label{
+    display:block;
+    font-size:.7rem;
+    font-weight:700;
+    color:var(--gold-dark);
+    text-transform:uppercase;
+    letter-spacing:.4px;
+    margin-bottom:5px;
+  }
+  .info-field input{
+    width:100%;
+    padding:9px 10px;
+    border-radius:8px;
+    border:1px solid var(--line);
+    font-size:.85rem;
+    font-family:inherit;
+    background:var(--cream);
+    color:var(--ink);
+  }
+
+  /* ---------- LEFT: catalog ---------- */
+  .catalog-col{
+    flex:1;
+    min-width:0;
+    padding:0 18px 60px;
+  }
+  .cat-block{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    margin-bottom:14px;
+    overflow:hidden;
+  }
+  .cat-header, .sub-header{
+    width:100%;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    border:none;
+    background:transparent;
+    cursor:pointer;
+    text-align:left;
+    font-family:inherit;
+  }
+  .cat-header{
+    padding:14px 16px;
+  }
+  .cat-header:hover{background:var(--cream-2);}
+  .cat-icon{
+    width:40px;height:40px;flex-shrink:0;
+    border-radius:50%;
+    background:var(--cream-2);
+    display:flex;align-items:center;justify-content:center;
+    font-size:1.3rem;
+  }
+  .cat-name{
+    font-family:"Playfair Display",Georgia,serif;
+    font-weight:600;
+    font-size:1rem;
+    color:var(--ink);
+    flex:1;
+  }
+  .cat-count, .sub-count{
+    font-size:.72rem;
+    color:var(--ink-soft);
+    background:var(--cream);
+    padding:2px 8px;
+    border-radius:999px;
+  }
+  .chevron{
+    font-size:1rem;
+    color:var(--ink-soft);
+    transition:transform .15s;
+    transform:rotate(0deg);
+  }
+  .chevron.open{transform:rotate(90deg);}
+  .cat-body{
+    padding:0 14px 12px;
+    border-top:1px solid var(--line);
+  }
+  .sub-block{
+    margin-top:10px;
+    background:var(--cream);
+    border-radius:10px;
+    overflow:hidden;
+  }
+  .sub-header{
+    padding:10px 12px;
+  }
+  .sub-header:hover{background:var(--cream-2);}
+  .sub-icon{
+    width:30px;height:30px;flex-shrink:0;
+    border-radius:50%;
+    background:var(--panel);
+    display:flex;align-items:center;justify-content:center;
+    font-size:1rem;
+    border:1px solid var(--line);
+  }
+  .sub-name{
+    font-weight:700;
+    font-size:.88rem;
+    color:var(--ink);
+    flex:1;
+  }
+  .sub-body{
+    padding:4px 8px 10px;
+  }
+  .product-row{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:9px 8px;
+    border-bottom:1px solid var(--line);
+    background:var(--panel);
+    border-radius:8px;
+    margin-bottom:4px;
+    transition:box-shadow .15s, border-color .15s;
+  }
+  .product-row:last-child{margin-bottom:0;}
+  .product-row.selected{
+    box-shadow:0 0 0 2px var(--gold);
+  }
+  .prod-info{
+    flex:1;
+    min-width:0;
+  }
+  .prod-name{
+    font-size:.85rem;
+    font-weight:600;
+    line-height:1.3;
+  }
+  .prod-meta{
+    font-size:.72rem;
+    color:var(--ink-soft);
+    margin-top:1px;
+  }
+  .prod-price{
+    font-size:.85rem;
+    font-weight:700;
+    color:var(--gold-dark);
+    width:64px;
+    text-align:right;
+    flex-shrink:0;
+  }
+  .stepper{
+    display:flex;
+    align-items:center;
+    border:1px solid var(--line);
+    border-radius:999px;
+    overflow:hidden;
+    flex-shrink:0;
+  }
+  .stepper button{
+    width:26px;
+    height:26px;
+    border:none;
+    background:var(--cream);
+    font-size:.95rem;
+    cursor:pointer;
+    color:var(--ink);
+    font-weight:700;
+  }
+  .stepper button:hover{background:var(--cream-2);}
+  .stepper .qty-val{
+    width:26px;
+    text-align:center;
+    font-size:.82rem;
+    font-weight:700;
+  }
+  .prod-linetotal{
+    font-size:.76rem;
+    color:var(--ink-soft);
+    font-weight:700;
+    width:58px;
+    text-align:right;
+    flex-shrink:0;
+  }
+
+  .extras-box{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:16px;
+  }
+  .extras-box textarea{
+    width:100%;
+    min-height:90px;
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:10px;
+    font-family:inherit;
+    font-size:.85rem;
+    resize:vertical;
+    margin-top:8px;
+    background:var(--cream);
+    color:var(--ink);
+  }
+
+  /* ---------- RIGHT: cart ---------- */
+  aside.cart{
+    width:340px;
+    flex-shrink:0;
+    position:sticky;
+    top:150px;
+    height:calc(100vh - 150px);
+    padding:20px 16px 30px 6px;
+    overflow-y:auto;
+  }
+  .cart-box{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:18px;
+  }
+  .cart-box h2{
+    margin:0 0 12px;
+    font-size:1rem;
+  }
+  .cart-items{
+    max-height:260px;
+    overflow-y:auto;
+    margin-bottom:12px;
+  }
+  .cart-item{
+    display:flex;
+    flex-direction:column;
+    gap:0;
+    font-size:.78rem;
+    padding:7px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .cart-item .ci-top{
+    display:flex;
+    justify-content:space-between;
+    gap:6px;
+  }
+  .cart-item .ci-name{color:var(--ink);font-weight:600;}
+  .cart-item .ci-meta{color:var(--ink-soft);white-space:nowrap;font-weight:700;}
+  .cart-item .ci-sub{color:var(--ink-soft);font-size:.7rem;margin-top:1px;}
+  .cart-empty{
+    font-size:.8rem;
+    color:var(--ink-soft);
+    padding:10px 0;
+  }
+
+  .zone-pay-box{
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+    padding:12px 0;
+    margin-bottom:10px;
+  }
+  .fld-label{
+    display:block;
+    font-size:.72rem;
+    font-weight:700;
+    color:var(--gold-dark);
+    text-transform:uppercase;
+    letter-spacing:.4px;
+    margin-bottom:6px;
+  }
+  .zone-pay-box select{
+    width:100%;
+    padding:9px 10px;
+    border-radius:8px;
+    border:1px solid var(--line);
+    font-size:.85rem;
+    font-family:inherit;
+    background:var(--cream);
+    color:var(--ink);
+  }
+  .pay-toggle{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    margin-top:10px;
+  }
+  .pay-toggle label{
+    display:flex;
+    align-items:flex-start;
+    gap:8px;
+    font-size:.8rem;
+    line-height:1.3;
+    background:var(--cream);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:9px 10px;
+    cursor:pointer;
+  }
+  .pay-toggle input{margin-top:2px;flex-shrink:0;}
+  .pay-toggle label.active{
+    border-color:var(--gold);
+    background:var(--cream-2);
+  }
+
+  .totals-row{
+    display:flex;
+    justify-content:space-between;
+    font-size:.85rem;
+    padding:4px 0;
+    gap:8px;
+  }
+  .totals-row.grand{
+    font-size:1.02rem;
+    font-weight:800;
+    color:var(--ink);
+    border-top:2px solid var(--cream-2);
+    margin-top:8px;
+    padding-top:10px;
+  }
+  .totals-row.due-now{
+    font-size:1.02rem;
+    font-weight:800;
+    color:var(--gold-dark);
+    border-top:1px dashed var(--line);
+    margin-top:6px;
+    padding-top:10px;
+  }
+  .totals-row.due-later{
+    font-size:.82rem;
+    color:var(--ink-soft);
+    font-weight:600;
+  }
+  .submit-btn{
+    width:100%;
+    margin-top:14px;
+    padding:13px;
+    border:none;
+    border-radius:8px;
+    background:var(--ink);
+    color:#fff;
+    font-weight:700;
+    font-size:.88rem;
+    letter-spacing:.3px;
+    cursor:pointer;
+  }
+  .submit-btn:hover{background:var(--gold-dark);}
+  .hint{
+    font-size:.7rem;
+    color:var(--ink-soft);
+    margin-top:8px;
+    line-height:1.4;
+  }
+
+  /* ---------- Footer: otros servicios ---------- */
+  footer.services{
+    max-width:1300px;
+    margin:10px auto 40px;
+    padding:0 18px;
+  }
+  .services-card{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:24px;
+    text-align:center;
+  }
+  .services-card h3{
+    margin:0 0 4px;
+    font-size:1.15rem;
+  }
+  .services-card p{
+    margin:0 0 16px;
+    font-size:.82rem;
+    color:var(--ink-soft);
+  }
+  .services-links{
+    display:flex;
+    justify-content:center;
+    gap:14px;
+    flex-wrap:wrap;
+    margin-bottom:16px;
+  }
+  .services-links a{
+    display:inline-block;
+    padding:9px 18px;
+    border:1px solid var(--gold);
+    border-radius:999px;
+    font-size:.8rem;
+    text-decoration:none;
+    color:var(--ink);
+  }
+  .services-links a:hover{background:var(--cream-2);}
+  .services-card .contact-line{
+    font-size:.78rem;
+    color:var(--ink-soft);
+  }
+  .services-card .contact-line a{border:none;padding:0;text-decoration:underline;}
+
+  /* Mobile */
+  .mobile-cart-bar{
+    position:fixed;
+    bottom:0;
+    left:0;
+    right:0;
+    background:var(--ink);
+    color:#fff;
+    padding:12px 16px;
+    display:none;
+    align-items:center;
+    justify-content:space-between;
+    z-index:30;
+    box-shadow:0 -4px 14px rgba(0,0,0,.2);
+  }
+  @media (max-width: 980px){
+    .layout{flex-direction:column;}
+    aside.cart{display:none;}
+    .catalog-col{padding-bottom:90px;}
+    .mobile-cart-bar{display:flex;}
+  }
+
+  .modal-overlay{
+    position:fixed;inset:0;background:rgba(30,26,20,.55);
+    display:none;align-items:center;justify-content:center;z-index:50;padding:16px;
+  }
+  .modal-overlay.open{display:flex;}
+  .modal{
+    background:var(--panel);border-radius:16px;max-width:480px;width:100%;
+    max-height:80vh;overflow-y:auto;padding:22px;
+  }
+  .modal h3{margin-top:0;}
+  .modal-close{
+    display:block;margin:16px auto 0;padding:10px 20px;border:none;
+    background:var(--ink);color:#fff;border-radius:8px;font-weight:700;cursor:pointer;
+  }
+  #thanksModal .modal{max-width:520px;text-align:center;}
+  #thanksModal h3{font-size:1.3rem;}
+  #thanksModal p{font-size:.9rem;color:var(--ink-soft);line-height:1.5;}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="brand-nav">
+    <img class="whale-logo" src="https://static.wixstatic.com/media/5f6069_b7f92de9d2b14fc886c885f0304dfb6a~mv2.png" alt="Private Chef Los Cabos &amp; Travel Boutique">
+    <nav class="site-nav">
+      <a href="https://www.privatechefloscabos.com/caboprivatechef">Chef</a>
+      <a href="https://www.privatechefloscabos.com/orchardloscabos">Orchard</a>
+      <a href="https://www.privatechefloscabos.com/cabotravelservices">Travel</a>
+      <a href="https://www.privatechefloscabos.com/cabolifestyle">Life Style</a>
+    </nav>
+  </div>
+  <div class="brand-text">
+      <p class="eyebrow">Cabo Travel Boutique</p>
+      <h1>Groceries Shopping</h1>
+      <p class="tag">Avoid lines, don't waste your time — we stock your villa before you arrive.</p>
+  </div>
+  <div class="search-bar">
+    <input type="text" id="searchInput" placeholder="Search for a product (e.g. tequila, milk, shrimp...)">
+  </div>
+</header>
+
+<div class="layout">
+  <div class="catalog-col" id="catalogCol"></div>
+
+  <aside class="cart">
+    <div class="cart-box">
+      <h2>🛒 Your order</h2>
+      <div class="cart-items" id="cartItems"></div>
+
+      <div class="zone-pay-box">
+        <label class="fld-label">Delivery area</label>
+        <select id="zoneSelect">
+          <option value="San José">San José del Cabo</option>
+          <option value="San Lucas">Cabo San Lucas</option>
+        </select>
+
+        <label class="fld-label" style="margin-top:12px;">Payment method</label>
+        <div class="pay-toggle" id="payToggle">
+          <label class="active" data-val="deposit">
+            <input type="radio" name="payType" value="deposit" checked>
+            <span>30% deposit now (+8.5% tax) — remainder in cash on delivery</span>
+          </label>
+          <label data-val="full">
+            <input type="radio" name="payType" value="full">
+            <span>Pay 100% now, online (+8.5% tax)</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="totals-row"><span>Items</span><span id="sumItems">$0.00</span></div>
+      <div class="totals-row"><span id="feeLabel">Delivery</span><span id="sumDelivery">$0.00</span></div>
+      <div class="totals-row grand"><span>Order total</span><span id="sumGrand">$0.00</span></div>
+      <div class="totals-row due-now"><span id="dueNowLabel">Due now</span><span id="sumDueNow">$0.00</span></div>
+      <div class="totals-row due-later" id="dueLaterRow"><span>Remaining in cash (on delivery)</span><span id="sumDueLater">$0.00</span></div>
+
+      <div class="info-card">
+        <h2>Your details &amp; delivery</h2>
+        <p class="step-note">Almost done — we need this to send your summary and coordinate the delivery date and time.</p>
+        <div class="info-grid">
+          <div class="info-field"><label>Full name *</label><input type="text" id="custName" placeholder="First and last name"></div>
+          <div class="info-field"><label>Phone / WhatsApp *</label><input type="tel" id="custPhone" placeholder="+1 555 555 5555"></div>
+          <div class="info-field"><label>Email address *</label><input type="email" id="custEmail" placeholder="you@email.com"></div>
+          <div class="info-field full"><label>Approximate delivery address *</label><input type="text" id="custAddress" placeholder="Villa / hotel, area, reference"></div>
+          <div class="info-field"><label>Desired delivery date *</label><input type="date" id="custDate"></div>
+          <div class="info-field"><label>Desired delivery time *</label><input type="time" id="custTime"></div>
+        </div>
+      </div>
+
+      <button class="submit-btn" id="submitBtn">Send order &amp; request payment</button>
+      <div class="hint">When you send this, your email app opens with the summary addressed to our team. As soon as we receive it, we'll email you a secure Stripe payment link for the amount shown above. If you chose the deposit option, the remainder is paid in cash at the time of delivery, tax-free.</div>
+    </div>
+  </aside>
+</div>
+
+<footer class="services">
+  <div class="services-card">
+    <h3 class="serif">Discover the rest of the Cabo experience</h3>
+    <p>We curate every detail of your stay in Los Cabos — not just your pantry.</p>
+    <div class="services-links">
+      <a href="https://www.privatechefloscabos.com/caboprivatechef">Private Chef</a>
+      <a href="https://www.privatechefloscabos.com/cabotravelservices">Cabo Travel Services</a>
+      <a href="https://www.privatechefloscabos.com/cabolifestyle">Cabo Lifestyle &amp; In Home Spa</a>
+      <a href="https://www.privatechefloscabos.com/">Back to home</a>
+    </div>
+    <p class="contact-line">Prefer to reach us directly? <a href="mailto:cabotravelexperiences@privatechefloscabos.com">cabotravelexperiences@privatechefloscabos.com</a> · <a href="https://wa.me/526241198107">WhatsApp</a></p>
+  </div>
+</footer>
+
+<div class="mobile-cart-bar" id="mobileCartBar">
+  <span id="mobileCartSummary">0 items · $0.00</span>
+  <button class="submit-btn" style="width:auto;padding:8px 16px;margin:0;" id="mobileCartOpen">View order</button>
+</div>
+
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <h3>🛒 Your order</h3>
+    <div id="modalCartItems"></div>
+
+    <div class="zone-pay-box">
+      <label class="fld-label">Delivery area</label>
+      <select id="zoneSelectModal">
+        <option value="San José">San José del Cabo</option>
+        <option value="San Lucas">Cabo San Lucas</option>
+      </select>
+
+      <label class="fld-label" style="margin-top:12px;">Payment method</label>
+      <div class="pay-toggle" id="payToggleModal">
+        <label class="active" data-val="deposit">
+          <input type="radio" name="payTypeModal" value="deposit" checked>
+          <span>30% deposit now (+8.5% tax) — remainder in cash on delivery</span>
+        </label>
+        <label data-val="full">
+          <input type="radio" name="payTypeModal" value="full">
+          <span>Pay 100% now, online (+8.5% tax)</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="totals-row"><span>Items</span><span id="modalSumItems">$0.00</span></div>
+    <div class="totals-row"><span id="modalFeeLabel">Delivery</span><span id="modalSumDelivery">$0.00</span></div>
+    <div class="totals-row grand"><span>Order total</span><span id="modalSumGrand">$0.00</span></div>
+    <div class="totals-row due-now"><span id="modalDueNowLabel">Due now</span><span id="modalSumDueNow">$0.00</span></div>
+    <div class="totals-row due-later" id="modalDueLaterRow"><span>Remaining in cash (on delivery)</span><span id="modalSumDueLater">$0.00</span></div>
+
+    <div class="info-card">
+      <h2>Your details &amp; delivery</h2>
+      <p class="step-note">Almost done — we need this to send your summary and coordinate the delivery date and time.</p>
+      <div class="info-grid">
+        <div class="info-field"><label>Full name *</label><input type="text" id="custNameModal" placeholder="First and last name"></div>
+        <div class="info-field"><label>Phone / WhatsApp *</label><input type="tel" id="custPhoneModal" placeholder="+1 555 555 5555"></div>
+        <div class="info-field"><label>Email address *</label><input type="email" id="custEmailModal" placeholder="you@email.com"></div>
+        <div class="info-field full"><label>Approximate delivery address *</label><input type="text" id="custAddressModal" placeholder="Villa / hotel, area, reference"></div>
+        <div class="info-field"><label>Desired delivery date *</label><input type="date" id="custDateModal"></div>
+        <div class="info-field"><label>Desired delivery time *</label><input type="time" id="custTimeModal"></div>
+      </div>
+    </div>
+
+    <button class="submit-btn" id="modalSubmitBtn">Send order &amp; request payment</button>
+    <button class="modal-close" id="modalCloseBtn">Close</button>
+  </div>
+</div>
+
+<div class="modal-overlay" id="thanksModal">
+  <div class="modal">
+    <h3 class="serif">Thank you, <span id="thanksName">traveler</span> 🌴</h3>
+    <p>Your request is ready to send — check your email app and confirm sending. As soon as we receive it, we'll email you a secure Stripe payment link for <strong id="thanksAmount">$0.00</strong>.</p>
+    <p>In the meantime, would you like to book anything else for your stay in Cabo?</p>
+    <div class="services-links">
+      <a href="https://www.privatechefloscabos.com/caboprivatechef">Private Chef</a>
+      <a href="https://www.privatechefloscabos.com/cabotravelservices">Cabo Travel Services</a>
+      <a href="https://www.privatechefloscabos.com/cabolifestyle">In Home Spa</a>
+    </div>
+    <button class="modal-close" id="thanksCloseBtn">Close</button>
+  </div>
+</div>
+
+<script>
+// ---------- BUSINESS CONFIG ----------
+const TAX_RATE = 0.085; // 8.5% applied only to the amount paid now, online
+const BUSINESS_EMAIL = "cabotravelexperiences@privatechefloscabos.com";
+
+// Tiered delivery fees based on purchase amount (items subtotal) and zone
+const FEE_TIERS = [
+  {max:300,      sj:45,  sl:60 },
+  {max:650,      sj:85,  sl:100},
+  {max:1100,     sj:120, sl:135},
+  {max:1500,     sj:200, sl:215},
+  {max:Infinity, sj:250, sl:250}
+];
+
+function getFee(subtotal, zone){
+  for(const t of FEE_TIERS){
+    if(subtotal <= t.max) return zone === 'San Lucas' ? t.sl : t.sj;
+  }
+  return FEE_TIERS[FEE_TIERS.length-1].sj;
+}
+
+// ---------- CATALOG ----------
+const CATALOG = [
+{cat:"General Groceries", icon:"🛒", sub:"Coffee & Tea", items:[
+  ["Coffee 16oz Bag Grounded",9.98],["Decaf Coffee",10.31],["Green Tea box \"Dabenforx\"",4.70]
+]},
+{cat:"General Groceries", icon:"🛒", sub:"Cereal", items:[
+  ["Bran Flakes",5.80],["Cheerios",5.15],["Corn Flakes",3.99],["Froot Loops",5.86],
+  ["Frosted Flakes",5.80],["Granola",7.28],["Granola Bar (6 piece)",5.73],["Pancake Mix",4.06]
+]},
+{cat:"General Groceries", icon:"🛒", sub:"Bread & Bakery", items:[
+  ["Bagels (6 Pieces)",6.63],["Baguette per piece",2.83],["English Muffins (6 pieces)",7.99],
+  ["Hot dog Buns (8 pieces)",3.48],["Muffins per piece",1.22],["Tortillas (corn 1lb)",0.97],
+  ["Tortillas (Flour 1lb)",1.93],["White Bread",3.86],["Whole Wheat Bread",4.19]
+]},
+{cat:"General Groceries", icon:"🛒", sub:"Kitchen Staples", items:[
+  ["Salt (250g)",1.93],["Pepper (3oz)",4.51],["Olive Oil (500ml)",10.05],
+  ["Canola Oil 1 liter",2.58],["Ghee (1 ltr)",16.10],["Pam Oil",4.51]
+]},
+{cat:"General Groceries", icon:"🛒", sub:"Sugar & Sweeteners", items:[
+  ["Grenadine (1L)",5.48],["Raw Sugar p/kg",2.45],["Simple Syrup (1L)",5.48],["Stevia",4.32],["Sugar",2.00]
+]},
+{cat:"General Groceries", icon:"🛒", sub:"Snacks", items:[
+  ["Cheetos Regulars",5.80],["Doritos Chips",5.54],["Ruffles",5.54],["Sea Salt Potato Chips",15.39],
+  ["Popcorn",3.32],["Pretzels 400g",3.16],["Chips Ahoy Cookies box",2.58],["Crackers box",2.58],
+  ["Hummus",5.99],["Oreo Box",2.58],["Plain Chips",5.35],["Japanese Peanuts",1.35]
+]},
+{cat:"General Groceries", icon:"🛒", sub:"Ice Cream", items:[
+  ["Regular Vanilla / Chocolate Ice Cream 1 ltr",5.48],["Lemon Sorbet 1 ltr",5.15],
+  ["Ice Cream Häagen-Dazs Vanilla 650ml",14.11],["Ice Cream Häagen-Dazs Chocolate 650ml",14.11]
+]},
+{cat:"General Groceries", icon:"🛒", sub:"Condiments", items:[
+  ["A1 Sauce",5.93],["Black Olives",7.15],["Chocolate Syrup",6.57],["Creamy Peanut Butter",5.80],
+  ["Crunchy Peanut Butter",6.31],["Dijon Mustard",4.64],["Green Olives",3.35],["Jack Daniel's BBQ",20.87],
+  ["Jams (Smucker's)",5.28],["Ketchup",1.93],["Maraschino Cherries",6.25],["Mayonnaise",4.64],
+  ["Mustard",1.93],["Pickle",4.83],["Relish",5.15],["Tabasco Sauce 2oz",3.54],
+  ["Thousand Island Dressing",2.45],["Worcestershire Sauce",7.80]
+]},
+{cat:"General Groceries", icon:"🛒", sub:"Stay Extras", items:[
+  ["Plastic Red Solo Cups (100 pzas)",9.34],["Ping Pong Balls",3.86],["Sun Screen",22.22]
+]},
+
+{cat:"Refrigerated", icon:"🥩", sub:"Meat, Fish & Poultry", items:[
+  ["Flank Steak Marinated 600g",14.75],["Bacon (16oz)",13.01],["Breakfast Sausage (12 piece)",9.79],
+  ["Chicken Breasts (per piece)",10.63],["Eggs (12 count)",2.83],["Organic Eggs (12 count)",15.46],
+  ["Ground Beef (1lb)",16.68],["Hot Dog Sausage (8 pieces)",4.25],["Salami (3oz)",5.48],
+  ["Smoked Turkey Ham (1lb)",6.90],["Pizza (assorted frozen)",10.69]
+]},
+{cat:"Refrigerated", icon:"🥩", sub:"Cheese", items:[
+  ["American Sliced Cheese (6oz)",5.02],["Asadero (1lb)",4.51],["Blue Cheese (4oz)",7.41],
+  ["Brie (1lb)",8.50],["Camembert (8oz)",8.31],["Cheddar (8oz)",6.05],["Gouda (1lb)",6.70],
+  ["Gruyère (1lb)",7.21],["Monterrey (8oz)",6.05],["Oaxaca (1lb)",8.70],["Panela (1lb)",6.89],
+  ["Parmesan Cheese Block (5.5oz)",11.08],["Sliced & Diced Assorted Cheese (1lb)",15.27],
+  ["Swiss Cheese Sliced",11.53]
+]},
+{cat:"Refrigerated", icon:"🥩", sub:"Deli & Prepared Foods", items:[
+  ["Chicken Salad (2lb)",17.32],["Fish Ceviche (2lb)",17.32],["Shrimp Ceviche (1lb)",23.45],
+  ["Fresh Cut Salsa Mexicana",5.15],["Guacamole (1lb)",11.84],["Homemade Refried Beans (1lb)",2.19],
+  ["Salsa Roja (mild spicy) 1lb",2.71],["Salsa Verde (tomatillo) 1lb",1.55],["Salsa Macha 8oz",6.38],
+  ["Tortilla Chips",2.90],["Traditional Mexican Flan (8pc)",25.76],["Caesar Dressing 8oz",2.45],
+  ["Ranch Dressing 8oz",2.45],["Veggie Crudités Container",3.99],["Assorted Seasonal Fruits (16oz)",10.63],
+  ["Single Fruit Container 16oz",10.63]
+]},
+{cat:"Refrigerated", icon:"🥩", sub:"Basic Dairy", items:[
+  ["Margarine",1.93],["Yogurt Greek 32oz",9.98],["Sour Cream 16oz",5.93],["Butter",5.15]
+]},
+
+{cat:"Produce", icon:"🥦", sub:"Vegetables", items:[
+  ["Avocado (piece)",0.90],["Bag of Baby Carrots (9oz)",1.48],["Bag of Kale (9oz)",7.92],
+  ["Bag of Spinach (9oz)",3.16],["Broccoli Heads",1.29],["Carrots",0.19],["Celery (per piece)",2.77],
+  ["Cherry Tomatoes",3.67],["Cilantro (bunch)",0.84],["Cucumber",1.55],["Green Bell Pepper",1.93],
+  ["Lettuce (piece)",1.42],["Mint (bunch)",1.93],["Onion",0.77],["Sweet Potato / Yam",3.86],
+  ["Potatoes Russet",0.39],["Tomato",0.45],["Yellow Bell Pepper",1.48],["Zucchini",0.52],["Garlic Head",1.67]
+]},
+{cat:"Produce", icon:"🥦", sub:"Fruits", items:[
+  ["Banana",0.52],["Blueberries",3.86],["Cantaloupe (piece)",4.90],["Frozen Mix Berries",6.05],
+  ["Grapefruit",0.90],["Green Apples",1.16],["Green Grapes (2lb)",5.80],["Green Melon (piece)",8.70],
+  ["Green Pear",0.90],["Kiwi (piece)",1.03],["Lemons",0.45],["Limes",0.32],["Mango (seasonal)",1.16],
+  ["Oranges",1.80],["Papaya",4.12],["Pineapple (piece)",3.61],["Red Apples",0.77],
+  ["Red Grapes",10.14],["Strawberry",10.82],["Watermelon (baby)",4.32]
+]},
+
+{cat:"Beverages", icon:"🥤", sub:"Drinks & Mixers", items:[
+  ["Bloody Mary Mix - Spicy",12.37],["Coconut Water 1lt",4.57],["Hard Seltzer 6 Pack (varias marcas)",11.01],
+  ["Margarita Mix (Regular)",6.96],["Piña Colada Mix",10.95],["Purified Bag of Ice",2.32],
+  ["Red Bull (piece)",2.77],["Red Bull Sugar Free (piece)",2.77],["Root Beer (piece)",2.64],
+  ["Gatorade 600ml (piece)",1.48]
+]},
+{cat:"Beverages", icon:"🥤", sub:"Milk & More", items:[
+  ["2% Milk",2.44],["Almond Milk",3.86],["Carnation Milk",3.03],["Half and Half (1qt)",4.32],
+  ["Heavy Whipping Cream",4.38],["Oat Milk",7.09],["Skim Milk (1lt)",2.25],["Whole Milk (1lt)",3.29]
+]},
+{cat:"Beverages", icon:"🥤", sub:"Soft Drinks", items:[
+  ["7-Up (piece 355ml)",1.23],["Sparkling Water Bottled 355ml",3.86],["Coca Cola 6 Pack 355ml",7.67],
+  ["Coca Cola Light 6 Pack 355ml",7.67],["Coca Cola Zero 6 Pack Mini",8.57],["Fresca (piece 355ml)",1.35],
+  ["Ginger Ale (piece 355ml)",1.16],["Sprite (piece 355ml)",1.35],["Tonic 296ml (piece)",6.76]
+]},
+{cat:"Beverages", icon:"🥤", sub:"Water", items:[
+  ["Water 5ltr / Gallon (varias marcas)",2.90],["Water 10ltr Ciel / similar",3.29],
+  ["Bottled Water Regular (35 pack)",8.24],["Bottled Water Arrowhead 500ml (piece)",0.74],
+  ["Evian Bottled Water 6 Pack 500ml",17.07],["Fiji Bottled Water 6 Pack 500ml",16.75],
+  ["Flavored Sparkling Water 8 Pack 355ml",12.11],["Perrier 4 Pack 330ml",7.73],
+  ["Pellegrino 6 Pack 250ml",9.34],["Topo Chico (piece 600ml)",1.35]
+]},
+{cat:"Beverages", icon:"🥤", sub:"Juices", items:[
+  ["Orange Juice Tetrapack 1ltr",1.93],["Orange Juice Fresh Squeezed 1ltr",13.20],
+  ["Grapefruit Juice Tetrapack 1ltr",2.77],["Green Juice Natural 1ltr",13.20],
+  ["Pineapple Juice Tetrapack 1ltr",1.80],["Fresh Squeezed Lime Juice 500ml",14.00],
+  ["Apple Juice",2.19],["Clamato Cocktail Juice",2.06],["Cranberry Juice (1qt)",3.54],
+  ["Simply Lemonade",14.04],["Tomato Juice",1.93]
+]},
+
+{cat:"Alcohol", icon:"🍺", sub:"Beer", items:[
+  ["12 Pack Bud Light",14.31],["24 Pack Bud Light",28.62],["24 Pack Coors Light",22.68],
+  ["12 Pack Corona",12.83],["24 Pack Corona",31.18],["24 Pack Corona Light",31.69],
+  ["12 Pack XX Lager",14.43],["24 Pack XX Lager",28.86],["24 Pack Heineken",29.97],
+  ["12 Pack Modelo",16.23],["24 Pack Modelo",39.69],["12 Pack Negra Modelo",18.16],
+  ["24 Pack Negra Modelo",36.33],["12 Pack Pacífico",36.72],["24 Pack Pacífico",36.72],
+  ["12 Pack Pacífico Light",30.92],["12 Pack Victoria",13.91],["24 Pack Victoria",36.72],
+  ["12 Pack Michelob Ultra",19.31],["24 Pack Michelob Ultra",25.65],["24 Pack Stella Artois",38.61],
+  ["12 Pack Tecate Light",14.04],["24 Pack Tecate Light",36.61],["12 Pack Tecate",14.29],["24 Pack Tecate",29.00]
+]},
+{cat:"Alcohol", icon:"🍺", sub:"Tequila 750ml", items:[
+  ["1800 Añejo",63.05],["Tequila Clase Azul",294.11],["Casamigos Añejo",80.26],["Casamigos Blanco",51.23],
+  ["Casamigos Reposado",57.31],["Centenario",37.36],["Código Añejo",192.91],["Código Blanco",106.02],
+  ["Código Reposado",118.09],["Cuervo Tradicional",33.14],["Don Julio 70 (white aged)",77.29],
+  ["Don Julio Blanco",43.80],["Don Julio Reposado",53.26],["Herradura Reposado",56.81],
+  ["Maestro Tequilero Blanco",55.01],["Patrón Gold",67.43],["Patrón Reposado",59.19],
+  ["Patrón Silver",50.56],["Reserva de la Familia Extra Añejo",227.75],["Reserva de la Familia Reposado",107.00]
+]},
+{cat:"Alcohol", icon:"🍺", sub:"Mezcal 750ml", items:[
+  ["400 Conejos Joven Espadín",39.22],["Monte Lobos Joven Espadín",55.89],["Ojo de Tigre Joven Espadín",46.39],
+  ["Ojo de Tigre Reposado",54.34],["Unión (Espadín)",39.61]
+]},
+{cat:"Alcohol", icon:"🍺", sub:"Vodka 750ml", items:[
+  ["Absolut",24.98],["Belvedere",66.13],["Grey Goose",64.06],["Ketel One",48.95],
+  ["Stolichnaya",27.05],["Tito's",48.44]
+]},
+{cat:"Alcohol", icon:"🍺", sub:"Rum 750ml", items:[
+  ["Appleton Estate Signature Blend",30.92],["Bacardí Añejo",29.88],["Bacardí Blanco",24.48],
+  ["Bacardí Solera",30.60],["Captain Morgan Original",18.16]
+]},
+{cat:"Alcohol", icon:"🍺", sub:"Gin", items:[
+  ["Beefeater",39.56],["Bombay Sapphire",40.43],["Tanqueray",43.16]
+]},
+{cat:"Alcohol", icon:"🍺", sub:"Brandy", items:[
+  ["Azteca de Oro",14.49],["Carlos I",74.59],["Presidente",11.91],["Torres 10",27.63]
+]},
+{cat:"Alcohol", icon:"🍺", sub:"Whisky / Bourbon / Scotch", items:[
+  ["Buchanan's",66.76],["Chivas Regal 12 Years",67.30],["Chivas Regal 18 Years",156.80],["Dewar's",75.98],
+  ["Gentleman Jack (subject to availability)",48.26],["Glenfiddich 12 Years",96.19],["Glenfiddich 18 Years",263.77],
+  ["Glenlivet",85.73],["Jack Daniel's",37.06],["Jim Beam Black",59.90],["Johnnie Walker Black Label",79.58],
+  ["Johnnie Walker Blue Label",507.53],["Johnnie Walker Gold Label",109.96],["Johnnie Walker Green Label",138.31],
+  ["Johnnie Walker Red Label",28.96],["Maker's Mark",48.95]
+]},
+{cat:"Alcohol", icon:"🍺", sub:"Liqueurs", items:[
+  ["Amaretto",37.80],["Bailey's",32.33],["Campari",33.11],["Cassis",46.86],["Cointreau",49.61],
+  ["Controy",17.01],["Damiana",11.81],["Fireball",28.96],["Grand Marnier",57.71],["Jägermeister",33.01],
+  ["Kahlúa",16.54],["Licor 43",38.34],["Midori",35.98],["Malibu",18.49]
+]},
+
+{cat:"Wine", icon:"🍷", sub:"Red & White Wine 750ml", items:[
+  ["Mexican Red Wine, Valle de Guadalupe (variety)",29.00],["Mexican White Wine, Valle de Guadalupe (variety)",26.00],
+  ["Premium Mexican Red Wine",73.00],["Premium Mexican White Wine",66.00],
+  ["Assorted Napa Valley Red Wines (American)",70.00],["Assorted Napa Valley White Wines (American)",65.00],
+  ["Premium Napa Red Wines (American)",98.00],["Premium Napa White Wines (American)",87.00]
+]},
+{cat:"Wine", icon:"🍷", sub:"Champagne & Sparkling", items:[
+  ["La Marca Prosecco White",40.43],["La Marca Prosecco Rosé",40.50],["Chandon Sparkling Wine",32.00],
+  ["Moët Chandon Brut",101.00],["Veuve Clicquot Brut",124.81]
+]},
+];
+
+// visual "logo" icons per subcategory
+const subIcons = {
+  "Coffee & Tea":"☕","Cereal":"🌾","Bread & Bakery":"🍞","Kitchen Staples":"🧂",
+  "Sugar & Sweeteners":"🍯","Snacks":"🍿","Ice Cream":"🍦","Condiments":"🧴","Stay Extras":"🎉",
+  "Meat, Fish & Poultry":"🍗","Cheese":"🧀","Deli & Prepared Foods":"🥙","Basic Dairy":"🥛",
+  "Vegetables":"🥕","Fruits":"🍎",
+  "Drinks & Mixers":"🍹","Milk & More":"🥛","Soft Drinks":"🥤","Water":"💧","Juices":"🧃",
+  "Beer":"🍺","Tequila 750ml":"🥃","Mezcal 750ml":"🥃","Vodka 750ml":"🍸","Rum 750ml":"🥃",
+  "Gin":"🍸","Brandy":"🥃","Whisky / Bourbon / Scotch":"🥃","Liqueurs":"🍸",
+  "Red & White Wine 750ml":"🍷","Champagne & Sparkling":"🍾"
+};
+
+// ---------- STATE ----------
+const qty = {}; // key -> quantity
+const openCats = new Set();
+const openSubs = new Set();
+let zone = "San José";
+let payType = "deposit"; // 'deposit' | 'full'
+function keyFor(cat, sub, name){ return cat+"__"+sub+"__"+name; }
+
+const catOrder = [];
+CATALOG.forEach(block=>{ if(!catOrder.includes(block.cat)) catOrder.push(block.cat); });
+const catIcons = {};
+CATALOG.forEach(b=>{ catIcons[b.cat]=b.icon; });
+
+function fmt(n){ return '$' + n.toFixed(2); }
+
+function splitName(full){
+  let m = full.match(/^(.*?)\s*\(([^)]+)\)\s*$/);
+  if(m){ return {name:m[1].trim(), meta:m[2].trim()}; }
+  m = full.match(/^(.*?)(\s\d+(\.\d+)?\s?(oz|ml|lt|ltr|kg|g|lb|qt|gal|L)\.?\b.*)$/i);
+  if(m && m[1].trim().length>1){ return {name:m[1].trim(), meta:m[2].trim()}; }
+  return {name:full, meta:""};
+}
+
+const catalogCol = document.getElementById('catalogCol');
+
+function makeProductRow(cat, sub, fullName, price){
+  const k = keyFor(cat,sub,fullName);
+  const {name, meta} = splitName(fullName);
+  const row = document.createElement('div');
+  row.className = 'product-row' + (qty[k] ? ' selected' : '');
+  row.innerHTML = `
+    <div class="prod-info">
+      <div class="prod-name">${name}</div>
+      ${meta ? `<div class="prod-meta">${meta}</div>` : ''}
+    </div>
+    <div class="prod-price">${fmt(price)}</div>
+    <div class="stepper">
+      <button class="dec" type="button">−</button>
+      <span class="qty-val">${qty[k]||0}</span>
+      <button class="inc" type="button">+</button>
+    </div>
+    <div class="prod-linetotal">${qty[k] ? fmt(qty[k]*price) : ''}</div>
+  `;
+  row.querySelector('.inc').onclick = ()=>{ qty[k]=(qty[k]||0)+1; refreshRow(row,cat,sub,fullName,price); };
+  row.querySelector('.dec').onclick = ()=>{ if(qty[k]>0){ qty[k]--; if(qty[k]===0) delete qty[k]; } refreshRow(row,cat,sub,fullName,price); };
+  return row;
+}
+
+function refreshRow(row, cat, sub, fullName, price){
+  const k = keyFor(cat,sub,fullName);
+  row.classList.toggle('selected', !!qty[k]);
+  row.querySelector('.qty-val').textContent = qty[k]||0;
+  row.querySelector('.prod-linetotal').textContent = qty[k] ? fmt(qty[k]*price) : '';
+  renderCart();
+}
+
+function renderCatalog(searchTerm){
+  catalogCol.innerHTML = "";
+
+  let toRender = CATALOG;
+  if(searchTerm){
+    const term = searchTerm.toLowerCase();
+    toRender = CATALOG.map(b=>({...b, items:b.items.filter(([n])=>n.toLowerCase().includes(term))}))
+                      .filter(b=>b.items.length>0);
+  }
+
+  let renderedAny = false;
+
+  catOrder.forEach(cat=>{
+    const blocksForCat = toRender.filter(b=>b.cat===cat);
+    if(blocksForCat.length===0) return;
+    renderedAny = true;
+
+    const itemCount = blocksForCat.reduce((n,b)=>n+b.items.length,0);
+    const isOpen = !!searchTerm || openCats.has(cat);
+
+    const catBlock = document.createElement('div');
+    catBlock.className = 'cat-block';
+    catBlock.innerHTML = `
+      <button class="cat-header" type="button">
+        <span class="cat-icon">${catIcons[cat]}</span>
+        <span class="cat-name">${cat}</span>
+        <span class="cat-count">${itemCount} items</span>
+        <span class="chevron ${isOpen?'open':''}">›</span>
+      </button>
+      <div class="cat-body" style="display:${isOpen?'block':'none'}"></div>
+    `;
+    const header = catBlock.querySelector('.cat-header');
+    const body = catBlock.querySelector('.cat-body');
+    header.onclick = ()=>{
+      const open = body.style.display === 'block';
+      body.style.display = open ? 'none' : 'block';
+      header.querySelector('.chevron').classList.toggle('open', !open);
+      if(open) openCats.delete(cat); else openCats.add(cat);
+    };
+
+    blocksForCat.forEach(block=>{
+      const subKey = cat+'|'+block.sub;
+      const subOpen = !!searchTerm || openSubs.has(subKey);
+
+      const subDiv = document.createElement('div');
+      subDiv.className = 'sub-block';
+      subDiv.innerHTML = `
+        <button class="sub-header" type="button">
+          <span class="sub-icon">${subIcons[block.sub] || '•'}</span>
+          <span class="sub-name">${block.sub}</span>
+          <span class="sub-count">${block.items.length}</span>
+          <span class="chevron ${subOpen?'open':''}">›</span>
+        </button>
+        <div class="sub-body" style="display:${subOpen?'block':'none'}"></div>
+      `;
+      const subHeader = subDiv.querySelector('.sub-header');
+      const subBody = subDiv.querySelector('.sub-body');
+      subHeader.onclick = ()=>{
+        const open = subBody.style.display === 'block';
+        subBody.style.display = open ? 'none' : 'block';
+        subHeader.querySelector('.chevron').classList.toggle('open', !open);
+        if(open) openSubs.delete(subKey); else openSubs.add(subKey);
+      };
+      block.items.forEach(([name, price])=>{
+        subBody.appendChild(makeProductRow(block.cat, block.sub, name, price));
+      });
+      body.appendChild(subDiv);
+    });
+
+    catalogCol.appendChild(catBlock);
+  });
+
+  const extrasOpen = openCats.has('__EXTRAS__');
+  const extrasBlock = document.createElement('div');
+  extrasBlock.className = 'cat-block';
+  extrasBlock.innerHTML = `
+    <button class="cat-header" type="button">
+      <span class="cat-icon">✍️</span>
+      <span class="cat-name">Special Requests</span>
+      <span class="chevron ${extrasOpen?'open':''}">›</span>
+    </button>
+    <div class="cat-body" style="display:${extrasOpen?'block':'none'}">
+      <div class="extras-box">
+        <p style="font-size:.85rem;color:var(--ink-soft);margin:0;">Describe here any specific brand, dietary restriction, or special quantity not in our catalog. We'll quote it manually.</p>
+        <textarea id="extrasText" placeholder="E.g. 2 kg of U15 shrimp for ceviche, sugar-free almond milk, etc.">${window.__extrasVal||''}</textarea>
+      </div>
+    </div>
+  `;
+  const exHeader = extrasBlock.querySelector('.cat-header');
+  const exBody = extrasBlock.querySelector('.cat-body');
+  exHeader.onclick = ()=>{
+    const open = exBody.style.display === 'block';
+    exBody.style.display = open ? 'none' : 'block';
+    exHeader.querySelector('.chevron').classList.toggle('open', !open);
+    if(open) openCats.delete('__EXTRAS__'); else openCats.add('__EXTRAS__');
+  };
+  extrasBlock.querySelector('#extrasText').addEventListener('input', (e)=>{ window.__extrasVal = e.target.value; });
+  if(!searchTerm) catalogCol.appendChild(extrasBlock);
+
+  if(!renderedAny && searchTerm){
+    catalogCol.innerHTML = '<p style="color:var(--ink-soft);padding:20px;">We could not find any matching products.</p>';
+  }
+}
+
+// ---------- CART ----------
+function getCartLines(){
+  const lines = [];
+  CATALOG.forEach(block=>{
+    block.items.forEach(([name, price])=>{
+      const k = keyFor(block.cat, block.sub, name);
+      if(qty[k] > 0){
+        lines.push({cat:block.cat, sub:block.sub, name, price, q:qty[k], total:qty[k]*price});
+      }
+    });
+  });
+  return lines;
+}
+
+function computeTotals(){
+  const lines = getCartLines();
+  const itemsTotal = lines.reduce((s,l)=>s+l.total, 0);
+  const fee = getFee(itemsTotal, zone);
+  const orderTotal = itemsTotal + fee;
+
+  let dueNow, dueLater, tax, taxBase;
+  if(payType === 'full'){
+    taxBase = orderTotal;
+    tax = taxBase * TAX_RATE;
+    dueNow = taxBase + tax;
+    dueLater = 0;
+  } else {
+    taxBase = orderTotal * 0.30;
+    tax = taxBase * TAX_RATE;
+    dueNow = taxBase + tax;
+    dueLater = orderTotal * 0.70;
+  }
+  return {lines, itemsTotal, fee, orderTotal, tax, dueNow, dueLater};
+}
+
+function renderCart(){
+  const {lines, itemsTotal, fee, orderTotal, dueNow, dueLater} = computeTotals();
+
+  const renderInto = (containerId)=>{
+    const el = document.getElementById(containerId);
+    el.innerHTML = "";
+    if(lines.length===0){
+      el.innerHTML = '<div class="cart-empty">You have not selected any products yet.</div>';
+      return;
+    }
+    lines.forEach(l=>{
+      const row = document.createElement('div');
+      row.className = 'cart-item';
+      row.innerHTML = `
+        <div class="ci-top">
+          <span class="ci-name">${l.q}× ${l.name}</span>
+          <span class="ci-meta">${fmt(l.total)}</span>
+        </div>
+        <div class="ci-sub">${catIcons[l.cat]||''} ${l.sub}</div>
+      `;
+      el.appendChild(row);
+    });
+  };
+
+  renderInto('cartItems');
+  renderInto('modalCartItems');
+
+  const feeLabelTxt = `Delivery (${zone})`;
+  const dueNowLabelTxt = payType === 'full'
+    ? 'Due now (100% + 8.5% tax)'
+    : 'Due now (30% + 8.5% tax)';
+
+  document.getElementById('feeLabel').textContent = feeLabelTxt;
+  document.getElementById('sumItems').textContent = fmt(itemsTotal);
+  document.getElementById('sumDelivery').textContent = fmt(fee);
+  document.getElementById('sumGrand').textContent = fmt(orderTotal);
+  document.getElementById('dueNowLabel').textContent = dueNowLabelTxt;
+  document.getElementById('sumDueNow').textContent = fmt(dueNow);
+  document.getElementById('dueLaterRow').style.display = payType === 'full' ? 'none' : 'flex';
+  document.getElementById('sumDueLater').textContent = fmt(dueLater);
+
+  document.getElementById('modalFeeLabel').textContent = feeLabelTxt;
+  document.getElementById('modalSumItems').textContent = fmt(itemsTotal);
+  document.getElementById('modalSumDelivery').textContent = fmt(fee);
+  document.getElementById('modalSumGrand').textContent = fmt(orderTotal);
+  document.getElementById('modalDueNowLabel').textContent = dueNowLabelTxt;
+  document.getElementById('modalSumDueNow').textContent = fmt(dueNow);
+  document.getElementById('modalDueLaterRow').style.display = payType === 'full' ? 'none' : 'flex';
+  document.getElementById('modalSumDueLater').textContent = fmt(dueLater);
+
+  const totalQty = lines.reduce((s,l)=>s+l.q,0);
+  document.getElementById('mobileCartSummary').textContent = `${totalQty} item${totalQty!==1?'s':''} · Total ${fmt(orderTotal)} · Due now ${fmt(dueNow)}`;
+}
+
+// pairs of [desktop id, modal id] that mirror each other so it doesn't matter
+// whether the shopper filled the sidebar (desktop) or the modal (mobile) version
+const CONTACT_FIELD_PAIRS = [
+  ['custName','custNameModal'],
+  ['custPhone','custPhoneModal'],
+  ['custEmail','custEmailModal'],
+  ['custAddress','custAddressModal'],
+  ['custDate','custDateModal'],
+  ['custTime','custTimeModal']
+];
+
+function pickFieldValue(id1, id2){
+  const v1 = document.getElementById(id1).value.trim();
+  if(v1) return v1;
+  return document.getElementById(id2).value.trim();
+}
+
+function getContactInfo(){
+  return {
+    name: pickFieldValue('custName','custNameModal'),
+    phone: pickFieldValue('custPhone','custPhoneModal'),
+    email: pickFieldValue('custEmail','custEmailModal'),
+    address: pickFieldValue('custAddress','custAddressModal'),
+    date: pickFieldValue('custDate','custDateModal'),
+    time: pickFieldValue('custTime','custTimeModal')
+  };
+}
+
+CONTACT_FIELD_PAIRS.forEach(([id1, id2])=>{
+  const el1 = document.getElementById(id1);
+  const el2 = document.getElementById(id2);
+  el1.addEventListener('input', ()=>{ el2.value = el1.value; });
+  el2.addEventListener('input', ()=>{ el1.value = el2.value; });
+});
+
+function validateContactInfo(c){
+  if(!c.name) return 'Please enter your full name.';
+  if(!c.phone) return 'Please enter your phone / WhatsApp number.';
+  if(!c.email) return 'Please enter your email address.';
+  if(!c.address) return 'Please enter the approximate delivery address.';
+  if(!c.date) return 'Please enter the desired delivery date.';
+  if(!c.time) return 'Please enter the desired delivery time.';
+  return null;
+}
+
+function buildOrderText(contact){
+  const {lines, itemsTotal, fee, orderTotal, tax, dueNow, dueLater} = computeTotals();
+  let txt = "NEW GROCERIES ORDER — Cabo Travel Boutique\n\n";
+  txt += `Customer: ${contact.name}\n`;
+  txt += `Phone / WhatsApp: ${contact.phone}\n`;
+  txt += `Email: ${contact.email}\n`;
+  txt += `Approximate delivery address: ${contact.address}\n`;
+  txt += `Desired delivery date & time: ${contact.date} ${contact.time}\n`;
+
+  let currentCat = null, currentSub = null;
+  lines.forEach(l=>{
+    if(l.cat !== currentCat){ txt += `\n== ${l.cat} ==\n`; currentCat = l.cat; currentSub=null; }
+    if(l.sub !== currentSub){ txt += `-- ${l.sub} --\n`; currentSub = l.sub; }
+    txt += `${l.q} x ${l.name} — ${fmt(l.total)}\n`;
+  });
+  if(window.__extrasVal && window.__extrasVal.trim()){
+    txt += `\n== Special Requests ==\n${window.__extrasVal.trim()}\n`;
+  }
+  txt += `\nDelivery area: ${zone}`;
+  txt += `\nItems subtotal: ${fmt(itemsTotal)}`;
+  txt += `\nDelivery: ${fmt(fee)}`;
+  txt += `\nOrder total: ${fmt(orderTotal)}`;
+  txt += `\nPayment method chosen: ${payType === 'full' ? 'Full payment 100% (online)' : '30% deposit (online) + remainder in cash'}`;
+  txt += `\nTax (8.5% on the amount paid online): ${fmt(tax)}`;
+  txt += `\nTO CHARGE NOW (send Stripe link for this amount): ${fmt(dueNow)}`;
+  if(payType !== 'full'){
+    txt += `\nRemainder in cash on delivery (tax-free): ${fmt(dueLater)}`;
+  }
+  return txt;
+}
+
+function submitOrder(){
+  const lines = getCartLines();
+  if(lines.length === 0){
+    alert('Please select at least one product before continuing.');
+    return;
+  }
+  const contact = getContactInfo();
+  const err = validateContactInfo(contact);
+  if(err){ alert(err); return; }
+
+  const {dueNow} = computeTotals();
+  const body = buildOrderText(contact);
+  const subject = `New Groceries Order — ${contact.name}`;
+  const mailto = `mailto:${BUSINESS_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  window.location.href = mailto;
+
+  document.getElementById('thanksName').textContent = contact.name;
+  document.getElementById('thanksAmount').textContent = fmt(dueNow);
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.getElementById('thanksModal').classList.add('open');
+}
+
+document.getElementById('submitBtn').onclick = submitOrder;
+document.getElementById('modalSubmitBtn').onclick = submitOrder;
+
+document.getElementById('mobileCartOpen').onclick = ()=> document.getElementById('modalOverlay').classList.add('open');
+document.getElementById('modalCloseBtn').onclick = ()=> document.getElementById('modalOverlay').classList.remove('open');
+document.getElementById('thanksCloseBtn').onclick = ()=> document.getElementById('thanksModal').classList.remove('open');
+
+document.getElementById('searchInput').addEventListener('input', (e)=>{
+  const v = e.target.value.trim();
+  renderCatalog(v || undefined);
+});
+
+document.getElementById('zoneSelect').addEventListener('change', (e)=>{
+  zone = e.target.value;
+  document.getElementById('zoneSelectModal').value = zone;
+  renderCart();
+});
+document.querySelectorAll('#payToggle input[name="payType"]').forEach(r=>{
+  r.addEventListener('change', (e)=>{
+    payType = e.target.value;
+    document.querySelectorAll('#payToggle label').forEach(l=> l.classList.toggle('active', l.dataset.val === payType));
+    const modalRadio = document.querySelector(`#payToggleModal input[value="${payType}"]`);
+    if(modalRadio) modalRadio.checked = true;
+    document.querySelectorAll('#payToggleModal label').forEach(l=> l.classList.toggle('active', l.dataset.val === payType));
+    renderCart();
+  });
+});
+
+document.getElementById('zoneSelectModal').addEventListener('change', (e)=>{
+  zone = e.target.value;
+  document.getElementById('zoneSelect').value = zone;
+  renderCart();
+});
+document.querySelectorAll('#payToggleModal input[name="payTypeModal"]').forEach(r=>{
+  r.addEventListener('change', (e)=>{
+    payType = e.target.value;
+    document.querySelectorAll('#payToggleModal label').forEach(l=> l.classList.toggle('active', l.dataset.val === payType));
+    const mainRadio = document.querySelector(`#payToggle input[value="${payType}"]`);
+    if(mainRadio) mainRadio.checked = true;
+    document.querySelectorAll('#payToggle label').forEach(l=> l.classList.toggle('active', l.dataset.val === payType));
+    renderCart();
+  });
+});
+
+// init
+renderCatalog();
+renderCart();
+</script>
+
+</body>
+</html>
