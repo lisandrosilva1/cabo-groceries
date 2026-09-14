@@ -93,8 +93,8 @@ const CSS = `
 /* ---- 3. the section, in this page's own container idiom ---- */
 const hasWrap = /class="wrap"/.test(html);
 const open = hasWrap
-  ? '<section id="faq-visible"><div class="wrap"><div class="section-head center"><span class="faqv-eyebrow">Before you book</span><h2 class="faqv-title">Questions we get asked.</h2></div>'
-  : '<section id="faq-visible" style="padding:40px 18px 26px;max-width:840px;margin:0 auto"><span class="faqv-eyebrow">Before you book</span><h2 class="faqv-title" style="font-size:1.5rem">Questions we get asked.</h2>';
+  ? '<section id="faq-visible"><div class="wrap"><div class="section-head center"><span class="faqv-eyebrow">Grocery delivery in Cabo · FAQ</span><h2 class="faqv-title">Questions about grocery delivery in Cabo San Lucas &amp; San José</h2></div>'
+  : '<section id="faq-visible" style="padding:40px 18px 26px;max-width:840px;margin:0 auto"><span class="faqv-eyebrow">Grocery delivery in Cabo · FAQ</span><h2 class="faqv-title" style="font-size:1.5rem">Questions about grocery delivery in Cabo San Lucas &amp; San José</h2>';
 const close = hasWrap ? '</div></section>' : '</section>';
 
 const items = qa
