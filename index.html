@@ -124,766 +124,353 @@
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Karla:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@1,6..72,400&family=Tenor+Sans&display=swap" rel="stylesheet">
 <style>
+  /* =====================================================================
+     "Villa" — night ground with a trace of pool water, clear glass over
+     photography, spaced capitals for display, receipt mono for prices.
+     The catalog, cart and checkout keep every class and id the script
+     renders; only their skin lives here.
+     ===================================================================== */
   :root{
-    --cream:#efe8d9;
-    --cream-2:#e4dac2;
-    --panel:#fffdf8;
-    --ink:#2b2723;
-    --ink-soft:#5c5548;
-    --line:#ddd2b6;
-    --gold:#b28c53;
-    --gold-dark:#8f6f3f;
-    --radius:10px;
+    --night:#0A0E0F;
+    --surface:#121819;
+    --surface-2:#1A2224;
+    --text:#E9EEEC;
+    --text-soft:#C3CCC9;
+    --muted:#86938F;
+    --pool:#9DBDB8;
+    --line:rgba(233,238,236,.1);
+    --line-strong:rgba(233,238,236,.22);
+    /* names the generated FAQ / rating blocks and a few inline styles read */
+    --gold:#9DBDB8;
+    --ink-soft:#86938F;
+    --radius:14px;
+    --radius-sm:10px;
+    --display:"Tenor Sans",Optima,Candara,"Segoe UI",sans-serif;
+    --serif-i:"Newsreader",Georgia,serif;
+    --body:"Karla",system-ui,-apple-system,"Segoe UI",sans-serif;
+    --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+    --gut:clamp(16px,4vw,56px);
+    color-scheme:dark;
   }
   *{box-sizing:border-box;}
-  body{
-    margin:0;
-    font-family:Arial,Helvetica,sans-serif;
-    background:var(--cream);
-    color:var(--ink);
-  }
-  h1,h2,h3,.serif{
-    font-family:"Playfair Display",Georgia,serif;
-    font-weight:600;
-    color:var(--ink);
-  }
-  a{color:var(--gold-dark);}
-
-  header.top{
-    background:var(--cream);
-    border-bottom:1px solid var(--line);
-    padding:20px 24px 22px;
-    position:sticky;
-    top:0;
-    z-index:20;
-  }
-  .brand-nav{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    gap:8px;
-    max-width:1300px;
-    margin:0 auto 14px;
-    text-align:center;
-  }
-  .brand-nav img.whale-logo{
-    height:72px;
-    width:auto;
-  }
-  .site-nav{
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:22px;
-    flex-wrap:wrap;
-  }
-  .site-nav a{
-    font-size:.78rem;
-    letter-spacing:.4px;
-    text-decoration:underline;
-    color:var(--ink);
-  }
-  .site-nav a:hover{color:var(--gold-dark);}
-  .brand-text{
-    max-width:1300px;
-    margin:0 auto;
-    text-align:center;
-  }
-  .brand-text .eyebrow{
-    font-size:.68rem;
-    letter-spacing:1.5px;
-    text-transform:uppercase;
-    color:var(--gold-dark);
-    font-weight:700;
-    margin:0 0 2px;
-  }
-  header.top h1{
-    margin:0 0 4px;
-    font-size:1.55rem;
-    letter-spacing:.2px;
-  }
-  header.top p.tag{
-    margin:0;
-    font-size:.85rem;
-    color:var(--ink-soft);
-    font-style:italic;
-  }
-  .search-bar{
-    margin-top:14px;
-    display:flex;
-    gap:8px;
-    max-width:1300px;
-    margin-left:auto;
-    margin-right:auto;
-  }
-  .search-bar input{
-    flex:1;
-    padding:10px 14px;
-    border-radius:999px;
-    border:1px solid var(--line);
-    font-size:.9rem;
-    outline:none;
-    background:var(--panel);
-    color:var(--ink);
-  }
-  .layout{
-    display:flex;
-    max-width:1300px;
-    margin:0 auto;
-    align-items:flex-start;
-    gap:0;
-  }
-
-  /* ---------- Step: contact & delivery details (shown once the cart has items) ---------- */
-  .info-card{
-    border-top:1px solid var(--line);
-    padding-top:14px;
-    margin-top:10px;
-  }
-  .info-card h2{
-    margin:0 0 4px;
-    font-size:.98rem;
-  }
-  .info-card .step-note{
-    font-size:.74rem;
-    color:var(--ink-soft);
-    margin:0 0 12px;
-    line-height:1.4;
-  }
-  .info-grid{
-    display:grid;
-    grid-template-columns:1fr;
-    gap:10px;
-  }
-  .info-grid .full{grid-column:1/-1;}
-  .info-field label{
-    display:block;
-    font-size:.7rem;
-    font-weight:700;
-    color:var(--gold-dark);
-    text-transform:uppercase;
-    letter-spacing:.4px;
-    margin-bottom:5px;
-  }
-  .info-field input{
-    width:100%;
-    padding:9px 10px;
-    border-radius:8px;
-    border:1px solid var(--line);
-    font-size:.85rem;
-    font-family:inherit;
-    background:var(--cream);
-    color:var(--ink);
-  }
-
-  /* ---------- LEFT: catalog ---------- */
-  .catalog-col{
-    flex:1;
-    min-width:0;
-    padding:0 18px 60px;
-  }
-  .cat-block{
-    background:var(--panel);
-    border:1px solid var(--line);
-    border-radius:var(--radius);
-    margin-bottom:14px;
-    overflow:hidden;
-  }
-  .cat-header, .sub-header{
-    width:100%;
-    display:flex;
-    align-items:center;
-    gap:12px;
-    border:none;
-    background:transparent;
-    cursor:pointer;
-    text-align:left;
-    font-family:inherit;
-  }
-  .cat-header{
-    padding:14px 16px;
-  }
-  .cat-header:hover{background:var(--cream-2);}
-  .cat-icon{
-    width:40px;height:40px;flex-shrink:0;
-    border-radius:50%;
-    background:var(--cream-2);
-    display:flex;align-items:center;justify-content:center;
-    font-size:1.3rem;
-  }
-  .cat-name{
-    font-family:"Playfair Display",Georgia,serif;
-    font-weight:600;
-    font-size:1rem;
-    color:var(--ink);
-    flex:1;
-  }
-  .cat-count, .sub-count{
-    font-size:.72rem;
-    color:var(--ink-soft);
-    background:var(--cream);
-    padding:2px 8px;
-    border-radius:999px;
-  }
-  .chevron{
-    font-size:1rem;
-    color:var(--ink-soft);
-    transition:transform .15s;
-    transform:rotate(0deg);
-  }
-  .chevron.open{transform:rotate(90deg);}
-  .cat-body{
-    padding:0 14px 12px;
-    border-top:1px solid var(--line);
-  }
-  .sub-block{
-    margin-top:10px;
-    background:var(--cream);
-    border-radius:10px;
-    overflow:hidden;
-  }
-  .sub-header{
-    padding:10px 12px;
-  }
-  .sub-header:hover{background:var(--cream-2);}
-  .sub-icon{
-    width:30px;height:30px;flex-shrink:0;
-    border-radius:50%;
-    background:var(--panel);
-    display:flex;align-items:center;justify-content:center;
-    font-size:1rem;
-    border:1px solid var(--line);
-  }
-  .sub-name{
-    font-weight:700;
-    font-size:.88rem;
-    color:var(--ink);
-    flex:1;
-  }
-  .sub-body{
-    padding:4px 8px 10px;
-  }
-  .product-row{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    padding:9px 8px;
-    border-bottom:1px solid var(--line);
-    background:var(--panel);
-    border-radius:8px;
-    margin-bottom:4px;
-    transition:box-shadow .15s, border-color .15s;
-  }
-  .product-row:last-child{margin-bottom:0;}
-  .product-row.selected{
-    box-shadow:0 0 0 2px var(--gold);
-  }
-  .prod-info{
-    flex:1;
-    min-width:0;
-  }
-  .prod-name{
-    font-size:.85rem;
-    font-weight:600;
-    line-height:1.3;
-  }
-  .prod-meta{
-    font-size:.72rem;
-    color:var(--ink-soft);
-    margin-top:1px;
-  }
-  .prod-price{
-    font-size:.85rem;
-    font-weight:700;
-    color:var(--gold-dark);
-    width:64px;
-    text-align:right;
-    flex-shrink:0;
-  }
-  .stepper{
-    display:flex;
-    align-items:center;
-    border:1px solid var(--line);
-    border-radius:999px;
-    overflow:hidden;
-    flex-shrink:0;
-  }
-  .stepper button{
-    width:26px;
-    height:26px;
-    border:none;
-    background:var(--cream);
-    font-size:.95rem;
-    cursor:pointer;
-    color:var(--ink);
-    font-weight:700;
-  }
-  .stepper button:hover{background:var(--cream-2);}
-  .stepper .qty-val{
-    width:26px;
-    text-align:center;
-    font-size:.82rem;
-    font-weight:700;
-  }
-  .prod-linetotal{
-    font-size:.76rem;
-    color:var(--ink-soft);
-    font-weight:700;
-    width:58px;
-    text-align:right;
-    flex-shrink:0;
-  }
-
-  .extras-box{
-    background:var(--panel);
-    border:1px solid var(--line);
-    border-radius:var(--radius);
-    padding:16px;
-  }
-  .extras-box textarea{
-    width:100%;
-    min-height:90px;
-    border:1px solid var(--line);
-    border-radius:10px;
-    padding:10px;
-    font-family:inherit;
-    font-size:.85rem;
-    resize:vertical;
-    margin-top:8px;
-    background:var(--cream);
-    color:var(--ink);
-  }
-
-  /* ---------- RIGHT: cart ---------- */
-  aside.cart{
-    width:340px;
-    flex-shrink:0;
-    position:sticky;
-    top:150px;
-    height:calc(100vh - 150px);
-    padding:20px 16px 30px 6px;
-    overflow-y:auto;
-  }
-  .cart-box{
-    background:var(--panel);
-    border:1px solid var(--line);
-    border-radius:var(--radius);
-    padding:18px;
-  }
-  .cart-box h2{
-    margin:0 0 12px;
-    font-size:1rem;
-  }
-  .cart-items{
-    max-height:260px;
-    overflow-y:auto;
-    margin-bottom:12px;
-  }
-  .cart-item{
-    display:flex;
-    flex-direction:column;
-    gap:0;
-    font-size:.78rem;
-    padding:7px 0;
-    border-bottom:1px solid var(--line);
-  }
-  .cart-item .ci-top{
-    display:flex;
-    justify-content:space-between;
-    gap:6px;
-  }
-  .cart-item .ci-name{color:var(--ink);font-weight:600;}
-  .cart-item .ci-meta{color:var(--ink-soft);white-space:nowrap;font-weight:700;}
-  .cart-item .ci-sub{color:var(--ink-soft);font-size:.7rem;margin-top:1px;}
-  .cart-empty{
-    font-size:.8rem;
-    color:var(--ink-soft);
-    padding:10px 0;
-  }
-
-  .zone-pay-box{
-    border-top:1px solid var(--line);
-    border-bottom:1px solid var(--line);
-    padding:12px 0;
-    margin-bottom:10px;
-  }
-  .fld-label{
-    display:block;
-    font-size:.72rem;
-    font-weight:700;
-    color:var(--gold-dark);
-    text-transform:uppercase;
-    letter-spacing:.4px;
-    margin-bottom:6px;
-  }
-  .zone-pay-box select{
-    width:100%;
-    padding:9px 10px;
-    border-radius:8px;
-    border:1px solid var(--line);
-    font-size:.85rem;
-    font-family:inherit;
-    background:var(--cream);
-    color:var(--ink);
-  }
-  .pay-toggle{
-    display:flex;
-    flex-direction:column;
-    gap:8px;
-    margin-top:10px;
-  }
-  .pay-toggle label{
-    display:flex;
-    align-items:flex-start;
-    gap:8px;
-    font-size:.8rem;
-    line-height:1.3;
-    background:var(--cream);
-    border:1px solid var(--line);
-    border-radius:10px;
-    padding:9px 10px;
-    cursor:pointer;
-  }
-  .pay-toggle input{margin-top:2px;flex-shrink:0;}
-  .pay-toggle label.active{
-    border-color:var(--gold);
-    background:var(--cream-2);
-  }
-
-  .totals-row{
-    display:flex;
-    justify-content:space-between;
-    font-size:.85rem;
-    padding:4px 0;
-    gap:8px;
-  }
-  .totals-row.grand{
-    font-size:1.02rem;
-    font-weight:800;
-    color:var(--ink);
-    border-top:2px solid var(--cream-2);
-    margin-top:8px;
-    padding-top:10px;
-  }
-  .totals-row.due-now{
-    font-size:1.02rem;
-    font-weight:800;
-    color:var(--gold-dark);
-    border-top:1px dashed var(--line);
-    margin-top:6px;
-    padding-top:10px;
-  }
-  .totals-row.due-later{
-    font-size:.82rem;
-    color:var(--ink-soft);
-    font-weight:600;
-  }
-  .submit-btn{
-    width:100%;
-    margin-top:14px;
-    padding:13px;
-    border:none;
-    border-radius:8px;
-    background:var(--ink);
-    color:#fff;
-    font-weight:700;
-    font-size:.88rem;
-    letter-spacing:.3px;
-    cursor:pointer;
-  }
-  .submit-btn:hover{background:var(--gold-dark);}
-  .hint{
-    font-size:.7rem;
-    color:var(--ink-soft);
-    margin-top:8px;
-    line-height:1.4;
-  }
-
-  /* ---------- Footer: otros servicios ---------- */
-  footer.services{
-    max-width:1300px;
-    margin:10px auto 40px;
-    padding:0 18px;
-  }
-  .services-card{
-    background:var(--panel);
-    border:1px solid var(--line);
-    border-radius:var(--radius);
-    padding:24px;
-    text-align:center;
-  }
-  .services-card h3{
-    margin:0 0 4px;
-    font-size:1.15rem;
-  }
-  .services-card p{
-    margin:0 0 16px;
-    font-size:.82rem;
-    color:var(--ink-soft);
-  }
-  .services-links{
-    display:flex;
-    justify-content:center;
-    gap:14px;
-    flex-wrap:wrap;
-    margin-bottom:16px;
-  }
-  .services-links a{
-    display:inline-block;
-    padding:9px 18px;
-    border:1px solid var(--gold);
-    border-radius:999px;
-    font-size:.8rem;
-    text-decoration:none;
-    color:var(--ink);
-  }
-  .services-links a:hover{background:var(--cream-2);}
-  .services-card .contact-line{
-    font-size:.78rem;
-    color:var(--ink-soft);
-  }
-  .services-card .contact-line a{border:none;padding:0;text-decoration:underline;}
-
-  /* Mobile */
-  .mobile-cart-bar{
-    position:fixed;
-    bottom:0;
-    left:0;
-    right:0;
-    background:var(--ink);
-    color:#fff;
-    padding:12px 16px;
-    display:none;
-    align-items:center;
-    justify-content:space-between;
-    z-index:30;
-    box-shadow:0 -4px 14px rgba(0,0,0,.2);
-  }
-  @media (max-width: 980px){
-    .layout{flex-direction:column;}
-    aside.cart{display:none;}
-    .catalog-col{padding-bottom:90px;}
-    .mobile-cart-bar{display:flex;}
-  }
-
-  .modal-overlay{
-    position:fixed;inset:0;background:rgba(30,26,20,.55);
-    display:none;align-items:center;justify-content:center;z-index:50;padding:16px;
-  }
-  .modal-overlay.open{display:flex;}
-  .modal{
-    background:var(--panel);border-radius:16px;max-width:480px;width:100%;
-    max-height:80vh;overflow-y:auto;padding:22px;
-  }
-  .modal h3{margin-top:0;}
-  .modal-close{
-    display:block;margin:16px auto 0;padding:10px 20px;border:none;
-    background:var(--ink);color:#fff;border-radius:8px;font-weight:700;cursor:pointer;
-  }
-  #thanksModal .modal{max-width:520px;text-align:center;}
-  #thanksModal h3{font-size:1.3rem;}
-  #thanksModal p{font-size:.9rem;color:var(--ink-soft);line-height:1.5;}
-
-  /* =====================================================================
-     Page content around the order form. The catalog, cart and checkout
-     above are untouched; everything below only explains and sells them.
-     ===================================================================== */
   html{scroll-behavior:smooth;}
-  /* --hdr is the real height of the sticky header, measured in JS; the cart used a
-     fixed 150px and slid under a header that is taller than that. */
-  aside.cart{top:var(--hdr,150px);height:calc(100vh - var(--hdr,150px));}
-  section[id],#catalogCol{scroll-margin-top:calc(var(--hdr,150px) + 12px);}
-  .eyebrow-g{display:block;font-size:.68rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold-dark);font-weight:700;margin:0 0 10px;}
-  .wrap-g{max-width:1300px;margin:0 auto;padding:0 18px;}
-  .sec-g{padding:64px 0;}
-  .sec-head{max-width:760px;margin:0 0 34px;}
-  .sec-head.center{margin-left:auto;margin-right:auto;text-align:center;}
-  .sec-head h2{font-size:clamp(1.6rem,3.2vw,2.3rem);line-height:1.15;margin:0 0 12px;}
-  .sec-head p{margin:0;color:var(--ink-soft);line-height:1.65;font-size:.98rem;}
+  body{margin:0;background:var(--night);color:var(--text);font-family:var(--body);font-size:16px;-webkit-font-smoothing:antialiased;}
+  h1,h2,h3,.serif{font-family:var(--display);font-weight:400;color:var(--text);letter-spacing:.02em;}
+  a{color:var(--pool);}
+  img{max-width:100%;}
+  section[id],#catalogCol{scroll-margin-top:calc(var(--hdr,72px) + 12px);}
+  .kicker{margin:0 0 14px;font:500 11px/1.4 var(--mono);letter-spacing:.22em;text-transform:uppercase;color:var(--pool);}
+  .wrap-g{max-width:1400px;margin:0 auto;padding-inline:var(--gut);}
 
-  /* intro, between the header and the catalog */
-  .intro-g{padding:26px 0 22px;}
-  .intro-grid{display:grid;grid-template-columns:1.25fr 1fr;gap:28px;align-items:center;}
-  .intro-g h2{font-size:clamp(1.35rem,2.6vw,1.85rem);line-height:1.2;margin:0 0 10px;}
-  .intro-g p.lead{margin:0 0 16px;color:var(--ink-soft);line-height:1.65;font-size:.95rem;max-width:62ch;}
-  .chips{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 16px;padding:0;list-style:none;}
-  .chips li{display:inline-flex;align-items:center;gap:7px;background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:7px 13px;font-size:.78rem;font-weight:600;color:var(--ink);}
-  .chips li::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--gold);flex-shrink:0;}
-  .intro-links{display:flex;flex-wrap:wrap;gap:16px;font-size:.82rem;}
-  .intro-links a{color:var(--gold-dark);font-weight:700;text-decoration:none;border-bottom:1px solid var(--gold);padding-bottom:1px;}
-  .intro-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
-  .intro-strip img{width:100%;height:auto;aspect-ratio:3/4;object-fit:cover;border-radius:var(--radius);display:block;border:1px solid var(--line);}
-  .intro-strip img:nth-child(2){transform:translateY(14px);}
-  .catalog-hint{max-width:1300px;margin:6px auto 0;padding:0 18px;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;}
-  .catalog-hint h2{font-size:1.15rem;margin:0;}
-  .catalog-hint span{font-size:.8rem;color:var(--ink-soft);}
-  .catalog-col{padding-top:14px;}
-  aside.cart{padding-top:14px;}
+  /* ---------- header: floats over the hero photo, turns solid on scroll ---------- */
+  header.top{position:sticky;top:0;z-index:40;background:transparent;border-bottom:1px solid rgba(233,238,236,.16);transition:background .35s ease,border-color .35s ease;}
+  header.top.scrolled{background:rgba(10,14,15,.88);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-bottom-color:var(--line);}
+  .hdr-row{max-width:1400px;margin:0 auto;display:flex;align-items:center;gap:28px;padding-block:14px;padding-inline:var(--gut);}
+  .brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--text);flex-shrink:0;}
+  .brand img.whale-logo{height:34px;width:auto;filter:invert(1) brightness(1.7);}
+  .wordmark{font-family:var(--display);font-size:16px;letter-spacing:.16em;text-transform:uppercase;white-space:nowrap;}
+  .site-nav{display:flex;gap:22px;}
+  .site-nav a{font:600 11px/1 var(--body);letter-spacing:.18em;text-transform:uppercase;color:var(--text-soft);text-decoration:none;}
+  .site-nav a:hover{color:var(--text);}
+  .search-bar{margin-left:auto;flex:1;max-width:380px;}
+  .search-bar input{width:100%;padding:11px 18px;border-radius:999px;border:1px solid rgba(233,238,236,.26);background:rgba(10,14,15,.38);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:var(--text);font:400 14px var(--body);outline:none;}
+  .search-bar input::placeholder{color:var(--text-soft);}
+  .search-bar input:focus{border-color:var(--pool);}
+  .order-pill{flex-shrink:0;font:500 12px/1 var(--mono);color:var(--text);background:rgba(10,14,15,.38);border:1px solid rgba(233,238,236,.26);border-radius:999px;padding:11px 16px;cursor:pointer;white-space:nowrap;}
+  .order-pill:hover{border-color:var(--pool);}
+  .order-pill:focus-visible,.site-nav a:focus-visible,.brand:focus-visible{outline:2px solid var(--pool);outline-offset:3px;}
 
-  /* stats */
+  /* ---------- hero ---------- */
+  .hero-c{position:relative;isolation:isolate;margin-top:calc(-1 * var(--hdr,72px));min-height:clamp(620px,70vw,860px);display:flex;align-items:flex-end;overflow:hidden;}
+  .hero-img{position:absolute;inset:0;z-index:-2;width:100%;height:100%;object-fit:cover;object-position:center 60%;}
+  .hero-c::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(10,14,15,.62) 0%,rgba(10,14,15,0) 26%,rgba(10,14,15,0) 46%,rgba(10,14,15,.82) 100%);}
+  .hero-inner{width:100%;max-width:1400px;margin:0 auto;padding-block:calc(var(--hdr,72px) + 40px) 56px;padding-inline:var(--gut);}
+  .hero-glass{max-width:720px;padding:clamp(24px,3.4vw,44px);border-radius:22px;background:rgba(10,14,15,.42);-webkit-backdrop-filter:blur(20px) saturate(1.2);backdrop-filter:blur(20px) saturate(1.2);border:1px solid rgba(233,238,236,.2);}
+  .hero-glass h1{margin:0;font-size:clamp(36px,5.6vw,78px);line-height:1.02;letter-spacing:.04em;text-transform:uppercase;text-wrap:balance;}
+  .hero-glass h1 i{font-family:var(--serif-i);font-style:italic;text-transform:none;letter-spacing:0;color:var(--pool);}
+  .hero-lead{margin:18px 0 0;font-size:17px;line-height:1.65;color:var(--text-soft);max-width:48ch;}
+  .hero-cta{display:flex;flex-wrap:wrap;align-items:center;gap:14px 26px;margin-top:28px;}
+  .hero-facts{list-style:none;margin:26px 0 0;padding:18px 0 0;border-top:1px solid rgba(233,238,236,.18);display:flex;flex-wrap:wrap;gap:8px 22px;font:400 12px/1.4 var(--mono);color:var(--text-soft);}
+  .hero-facts li::before{content:"";display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--pool);margin-right:9px;vertical-align:middle;}
+
+  .btn-primary{display:inline-flex;align-items:center;gap:12px;padding:17px 28px;border-radius:999px;background:var(--text);color:var(--night);font:700 12.5px/1 var(--body);letter-spacing:.16em;text-transform:uppercase;text-decoration:none;transition:background .25s ease,transform .25s ease;}
+  .btn-primary:hover{background:#fff;transform:translateY(-1px);}
+  .btn-ghost{display:inline-flex;align-items:center;gap:10px;padding:16px 24px;border-radius:999px;border:1px solid var(--line-strong);color:var(--text);font:700 12px/1 var(--body);letter-spacing:.14em;text-transform:uppercase;text-decoration:none;background:transparent;cursor:pointer;}
+  .btn-ghost:hover{border-color:var(--pool);}
+  .btn-text{font:700 12px/1 var(--body);letter-spacing:.14em;text-transform:uppercase;color:var(--text-soft);text-decoration:none;border-bottom:1px solid currentColor;padding-bottom:4px;}
+  .btn-text:hover{color:var(--text);}
+  .btn-primary:focus-visible,.btn-ghost:focus-visible,.btn-text:focus-visible{outline:2px solid var(--pool);outline-offset:3px;}
+
+  /* ---------- catalog head ---------- */
+  .shop-head{max-width:1400px;margin:0 auto;padding-block:76px 30px;padding-inline:var(--gut);display:grid;grid-template-columns:minmax(0,1fr) minmax(0,440px);gap:16px 48px;align-items:end;}
+  .shop-title{margin:0;font-size:clamp(26px,3vw,40px);line-height:1.1;letter-spacing:.03em;text-transform:uppercase;text-wrap:balance;}
+  .shop-note{margin:0;color:var(--muted);font-size:14.5px;line-height:1.65;}
+
+  /* ---------- catalog (rendered by the script) ---------- */
+  .layout{display:flex;max-width:1400px;margin:0 auto;align-items:flex-start;gap:28px;padding-inline:var(--gut);padding-bottom:88px;}
+  .catalog-col{flex:1;min-width:0;border-top:1px solid var(--line);}
+  .cat-block{border-bottom:1px solid var(--line);}
+  .cat-header,.sub-header{width:100%;display:flex;align-items:center;gap:14px;border:none;background:transparent;cursor:pointer;text-align:left;font-family:inherit;color:var(--text);}
+  .cat-header{padding:20px 4px;}
+  .cat-header:focus-visible,.sub-header:focus-visible{outline:2px solid var(--pool);outline-offset:-2px;border-radius:8px;}
+  .cat-icon,.sub-icon{display:none;}
+  .cat-name{flex:1;font:500 16px/1.3 var(--body);}
+  .cat-count,.sub-count{font:400 12px/1 var(--mono);color:var(--muted);}
+  .chevron{width:16px;text-align:center;font:400 15px/1 var(--mono);color:var(--muted);transition:transform .2s ease;}
+  .chevron.open{transform:rotate(90deg);color:var(--pool);}
+  .cat-body{padding:0 0 18px;}
+  .sub-block{margin-top:12px;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;}
+  .sub-header{padding:15px 18px;}
+  .sub-header:hover{background:var(--surface-2);}
+  .sub-name{flex:1;font:700 11.5px/1.2 var(--body);letter-spacing:.18em;text-transform:uppercase;}
+  .sub-body{padding:0;}
+  .product-row{display:flex;align-items:center;gap:14px;padding:14px 18px;border-top:1px solid var(--line);transition:background .15s ease,box-shadow .15s ease;}
+  .product-row:hover{background:rgba(233,238,236,.03);}
+  .product-row.selected{box-shadow:inset 3px 0 0 var(--pool);background:rgba(157,189,184,.06);}
+  .prod-info{flex:1;min-width:0;}
+  .prod-name{font-size:14.5px;font-weight:500;line-height:1.35;}
+  .prod-meta{font:400 11.5px/1.3 var(--mono);color:var(--muted);margin-top:3px;}
+  .prod-price{width:78px;flex-shrink:0;text-align:right;font:500 14px/1 var(--mono);font-variant-numeric:tabular-nums;}
+  .stepper{display:flex;align-items:center;flex-shrink:0;border:1px solid var(--line-strong);border-radius:999px;overflow:hidden;}
+  .stepper button{width:32px;height:32px;border:none;background:transparent;color:var(--text-soft);font:500 16px/1 var(--mono);cursor:pointer;}
+  .stepper button:hover{background:var(--surface-2);color:var(--text);}
+  .stepper button:focus-visible{outline:2px solid var(--pool);outline-offset:-2px;}
+  .stepper .qty-val{width:26px;text-align:center;font:500 13px/1 var(--mono);}
+  .product-row.selected .qty-val{color:var(--pool);}
+  .prod-linetotal{width:64px;flex-shrink:0;text-align:right;font:400 12px/1 var(--mono);color:var(--muted);}
+  .extras-box{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:18px;}
+  .extras-box textarea{width:100%;min-height:96px;margin-top:10px;padding:12px;border:1px solid var(--line-strong);border-radius:var(--radius-sm);background:var(--night);color:var(--text);font:400 14px/1.5 var(--body);resize:vertical;}
+
+  /* ---------- order (receipt) ---------- */
+  aside.cart{width:360px;flex-shrink:0;position:sticky;top:calc(var(--hdr,72px) + 16px);max-height:calc(100vh - var(--hdr,72px) - 32px);overflow-y:auto;scrollbar-width:thin;}
+  .cart-box{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:24px;}
+  .cart-box h2,.modal h3{margin:0 0 16px;font-size:17px;letter-spacing:.12em;text-transform:uppercase;}
+  .cart-items{max-height:240px;overflow-y:auto;margin-bottom:14px;}
+  .cart-item{padding:8px 0;border-bottom:1px dashed var(--line);}
+  .cart-item .ci-top{display:flex;justify-content:space-between;gap:10px;font:400 12.5px/1.45 var(--mono);}
+  .cart-item .ci-name{color:var(--text);}
+  .cart-item .ci-meta{color:var(--text);white-space:nowrap;}
+  .cart-item .ci-sub{font-size:11px;color:var(--muted);margin-top:2px;}
+  .cart-empty{font-size:13.5px;line-height:1.5;color:var(--muted);padding:4px 0 12px;}
+  .zone-pay-box{border-top:1px dashed var(--line-strong);border-bottom:1px dashed var(--line-strong);padding:16px 0;margin-bottom:12px;}
+  .fld-label{display:block;margin-bottom:8px;font:500 10.5px/1 var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--muted);}
+  .zone-pay-box select{width:100%;padding:11px 12px;border-radius:var(--radius-sm);border:1px solid var(--line-strong);background:var(--night);color:var(--text);font:400 14px var(--body);}
+  .pay-toggle{display:flex;flex-direction:column;gap:8px;margin-top:10px;}
+  .pay-toggle label{display:flex;align-items:flex-start;gap:10px;padding:11px 12px;border:1px solid var(--line);border-radius:var(--radius-sm);font-size:13.5px;line-height:1.4;color:var(--text-soft);cursor:pointer;}
+  .pay-toggle input{margin-top:2px;flex-shrink:0;accent-color:var(--pool);}
+  .pay-toggle label.active{border-color:var(--pool);box-shadow:inset 0 0 0 1px var(--pool);color:var(--text);}
+  .totals-row{display:flex;justify-content:space-between;gap:8px;padding:6px 0;font:400 13px/1.2 var(--mono);font-variant-numeric:tabular-nums;color:var(--muted);}
+  .totals-row.grand{color:var(--text);font-size:14.5px;border-top:1px solid var(--line);margin-top:8px;padding-top:12px;}
+  .totals-row.due-now{color:var(--pool);font-size:15px;font-weight:500;border-top:1px dashed var(--line-strong);margin-top:8px;padding-top:12px;}
+  .totals-row.due-later{font-size:12.5px;}
+  .info-card{border-top:1px dashed var(--line-strong);padding-top:16px;margin-top:12px;}
+  .info-card h2{margin:0 0 6px;font-size:14px;letter-spacing:.12em;text-transform:uppercase;}
+  .info-card .step-note{margin:0 0 14px;font-size:12.5px;line-height:1.5;color:var(--muted);}
+  .info-grid{display:grid;grid-template-columns:1fr;gap:12px;}
+  .info-grid .full{grid-column:1/-1;}
+  .info-field label{display:block;margin-bottom:6px;font:500 10.5px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--muted);}
+  .info-field input{width:100%;padding:11px 12px;border-radius:var(--radius-sm);border:1px solid var(--line-strong);background:var(--night);color:var(--text);font:400 14px var(--body);}
+  .info-field input:focus,.zone-pay-box select:focus,.extras-box textarea:focus{outline:none;border-color:var(--pool);}
+  .submit-btn{width:100%;margin-top:18px;padding:16px;border:none;border-radius:999px;background:var(--text);color:var(--night);font:700 12px/1 var(--body);letter-spacing:.16em;text-transform:uppercase;cursor:pointer;}
+  .submit-btn:hover{background:#fff;}
+  .submit-btn:focus-visible,.modal-close:focus-visible{outline:2px solid var(--pool);outline-offset:3px;}
+  .hint{margin-top:12px;font-size:12px;line-height:1.55;color:var(--muted);}
+
+  .mobile-cart-bar{position:fixed;left:0;right:0;bottom:0;z-index:30;display:none;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px;background:rgba(18,24,25,.95);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-top:1px solid var(--line);color:var(--text);font:400 12px/1.35 var(--mono);}
+  .modal-overlay{position:fixed;inset:0;z-index:60;display:none;align-items:center;justify-content:center;padding:16px;background:rgba(5,8,9,.72);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);}
+  .modal-overlay.open{display:flex;}
+  .modal{width:100%;max-width:480px;max-height:86vh;overflow-y:auto;padding:24px;background:var(--surface);border:1px solid var(--line);border-radius:18px;color:var(--text);}
+  .modal-close{display:block;margin:14px auto 0;padding:12px 22px;border:1px solid var(--line-strong);border-radius:999px;background:transparent;color:var(--text);font:700 12px/1 var(--body);letter-spacing:.14em;text-transform:uppercase;cursor:pointer;}
+  #thanksModal .modal{max-width:520px;text-align:center;}
+  #thanksModal h3{font-size:22px;letter-spacing:.04em;text-transform:none;}
+  #thanksModal p{font-size:15px;line-height:1.6;color:var(--text-soft);}
+
+  /* ---------- stats ---------- */
   .stats-g{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
-  .stats-g div{padding:22px 16px;text-align:center;border-left:1px solid var(--line);}
+  .stats-g div{padding:30px 16px;text-align:center;border-left:1px solid var(--line);}
   .stats-g div:first-child{border-left:none;}
-  .stats-g b{display:block;font-family:"Playfair Display",Georgia,serif;font-size:clamp(1.5rem,3vw,2.1rem);font-weight:600;color:var(--ink);line-height:1.1;}
-  .stats-g span{font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);}
+  .stats-g b{display:block;font:400 clamp(26px,3vw,38px)/1.1 var(--display);letter-spacing:.04em;color:var(--text);}
+  .stats-g span{display:block;margin-top:6px;font:400 11px/1.3 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);}
 
-  /* how it works */
-  .steps-g{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;counter-reset:step;list-style:none;margin:0;padding:0;}
-  .steps-g li{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:22px 20px;position:relative;}
-  .steps-g li::before{counter-increment:step;content:counter(step,decimal-leading-zero);display:block;font-family:"Playfair Display",Georgia,serif;font-size:1.9rem;color:var(--gold);line-height:1;margin-bottom:12px;}
-  .steps-g h3{font-size:1.02rem;margin:0 0 8px;}
-  .steps-g p{margin:0;font-size:.86rem;line-height:1.6;color:var(--ink-soft);}
+  /* ---------- split screens: one column photo, one column text ---------- */
+  .split{display:grid;grid-template-columns:1fr 1fr;min-height:700px;background:var(--surface);}
+  .split-media{position:relative;min-height:420px;overflow:hidden;}
+  .split-media img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+  .split.reverse .split-media{order:2;}
+  .split-copy{display:flex;flex-direction:column;justify-content:center;padding-block:clamp(56px,7vw,110px);padding-inline:clamp(24px,5vw,88px);}
+  .h2{margin:0;font-size:clamp(28px,3.3vw,46px);line-height:1.08;letter-spacing:.03em;text-transform:uppercase;text-wrap:balance;}
+  .sec-lead{margin:16px 0 0;max-width:52ch;font-size:16px;line-height:1.65;color:var(--text-soft);}
+  .steps{list-style:none;margin:32px 0 0;padding:0;counter-reset:step;}
+  .steps li{display:grid;grid-template-columns:52px minmax(0,1fr);gap:16px;padding:18px 0;border-top:1px solid var(--line);}
+  .steps li:last-child{border-bottom:1px solid var(--line);}
+  .steps li::before{counter-increment:step;content:counter(step);font:italic 400 32px/1 var(--serif-i);color:var(--pool);}
+  .steps h3{margin:0 0 5px;font:600 16px/1.3 var(--body);letter-spacing:0;}
+  .steps p{margin:0;font-size:14.5px;line-height:1.6;color:var(--text-soft);}
+  .vs{list-style:none;margin:30px 0 0;padding:0;}
+  .vs li{display:grid;grid-template-columns:130px minmax(0,1fr);gap:4px 22px;padding:15px 0;border-top:1px solid var(--line);}
+  .vs li:last-child{border-bottom:1px solid var(--line);}
+  .vs .lbl{padding-top:3px;font:500 10.5px/1.5 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--muted);}
+  .vs .them{font-size:14px;line-height:1.5;color:var(--muted);text-decoration:line-through;text-decoration-color:rgba(134,147,143,.55);}
+  .vs .us{grid-column:2;font-size:15px;line-height:1.5;color:var(--text);}
+  .cta-row{display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px;margin-top:32px;}
 
-  /* why us vs the store */
-  .vs-band{background:var(--ink);color:#f4eee2;}
-  .vs-band h2,.vs-band h3{color:#fff;}
-  .vs-band .eyebrow-g{color:var(--gold);}
-  .vs-band .sec-head p{color:rgba(244,238,226,.72);}
-  .vs-table{width:100%;border-collapse:collapse;}
-  .vs-table th{font-family:"Playfair Display",Georgia,serif;font-weight:600;font-size:1.05rem;text-align:left;padding:0 18px 14px;color:#fff;}
-  .vs-table th.us{color:var(--gold);}
-  .vs-table td{padding:16px 18px;border-top:1px solid rgba(255,255,255,.12);vertical-align:top;font-size:.9rem;line-height:1.55;}
-  .vs-table td:first-child{font-weight:700;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(244,238,226,.6);width:16%;padding-top:19px;}
-  .vs-table td.them{color:rgba(244,238,226,.68);width:38%;}
-  .vs-table td.us{color:#fff;background:rgba(178,140,83,.10);}
-  .vs-table td.us::before{content:"✓";color:var(--gold);font-weight:700;margin-right:8px;}
-  .vs-table tr:last-child td.us{border-radius:0 0 12px 12px;}
-  .vs-cta{margin-top:30px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;}
-  .btn-g{display:inline-block;padding:13px 22px;border-radius:8px;background:var(--gold);color:#1e1a15;font-weight:700;font-size:.88rem;text-decoration:none;letter-spacing:.2px;}
-  .btn-g:hover{background:#c9a26a;}
-  .btn-g.ghost{background:transparent;color:#f4eee2;border:1px solid rgba(255,255,255,.35);}
-  .btn-g.ghost:hover{border-color:var(--gold);color:#fff;}
-
-  /* gallery */
-  .gal-g{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:clamp(150px,19vw,250px);grid-auto-flow:dense;gap:10px;}
-  .gal-g figure{margin:0;position:relative;overflow:hidden;border-radius:var(--radius);background:var(--cream-2);}
-  .gal-g .t-hero{grid-column:span 2;grid-row:span 2;}
-  .gal-g .t-wide{grid-column:span 2;}
-  .gal-g button{all:unset;display:block;width:100%;height:100%;cursor:zoom-in;}
-  .gal-g button:focus-visible{outline:3px solid var(--gold);outline-offset:-3px;}
-  .gal-g img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s cubic-bezier(.2,.7,.2,1);}
-  .gal-g figure:hover img{transform:scale(1.04);}
-  .gal-g figcaption{position:absolute;left:0;right:0;bottom:0;padding:26px 12px 10px;font-size:.76rem;font-weight:600;color:#fff;background:linear-gradient(transparent,rgba(20,16,12,.72));pointer-events:none;line-height:1.3;}
-  .gal-g .t-hero figcaption{font-size:.95rem;padding:40px 18px 16px;}
+  /* ---------- gallery ---------- */
+  .gallery-sec{padding-block:96px;}
+  .sec-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,440px);gap:16px 48px;align-items:end;margin-bottom:36px;}
+  .sec-head p{margin:0;font-size:14.5px;line-height:1.65;color:var(--muted);}
+  .gal-g{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;}
+  .gal-g figure{position:relative;margin:0;border-radius:var(--radius);overflow:hidden;background:var(--surface);}
+  .gal-g figure.more{display:none;}
+  .gal-g.expanded figure.more{display:block;}
+  .gal-g button{all:unset;display:block;width:100%;cursor:zoom-in;}
+  .gal-g button:focus-visible{outline:3px solid var(--pool);outline-offset:-3px;}
+  .gal-g img{display:block;width:100%;height:auto;aspect-ratio:3/2;object-fit:cover;transition:transform .9s cubic-bezier(.2,.7,.2,1);}
+  .gal-g figure:hover img{transform:scale(1.03);}
+  .gal-g figcaption{position:absolute;left:14px;bottom:14px;max-width:calc(100% - 28px);padding:8px 13px;border-radius:999px;background:rgba(10,14,15,.55);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);font:400 11.5px/1.3 var(--mono);color:var(--text);pointer-events:none;}
+  .gal-more{display:flex;justify-content:center;margin-top:30px;}
   dialog.lb{border:none;padding:0;background:transparent;max-width:min(92vw,1100px);max-height:92vh;overflow:visible;}
-  dialog.lb::backdrop{background:rgba(18,15,11,.9);}
-  dialog.lb img{display:block;max-width:min(92vw,1100px);max-height:80vh;width:auto;height:auto;border-radius:8px;margin:0 auto;}
-  dialog.lb p{color:#f4eee2;text-align:center;font-size:.9rem;margin:12px 0 0;}
-  .lb-btn{position:fixed;top:50%;transform:translateY(-50%);width:46px;height:46px;border-radius:50%;border:1px solid rgba(255,255,255,.3);background:rgba(20,16,12,.55);color:#fff;font-size:1.4rem;cursor:pointer;}
-  .lb-btn:hover{border-color:var(--gold);}
+  dialog.lb::backdrop{background:rgba(5,8,9,.92);}
+  dialog.lb img{display:block;max-width:min(92vw,1100px);max-height:80vh;width:auto;height:auto;margin:0 auto;border-radius:10px;}
+  dialog.lb p{margin:12px 0 0;text-align:center;font:400 12.5px/1.4 var(--mono);color:var(--text-soft);}
+  .lb-btn{position:fixed;top:50%;transform:translateY(-50%);width:46px;height:46px;border-radius:50%;border:1px solid rgba(233,238,236,.3);background:rgba(10,14,15,.6);color:var(--text);font-size:1.3rem;cursor:pointer;}
+  .lb-btn:hover{border-color:var(--pool);}
   .lb-prev{left:16px;} .lb-next{right:16px;}
-  .lb-close{top:18px;right:16px;transform:none;font-size:1.1rem;}
+  .lb-close{top:18px;right:16px;transform:none;font-size:1rem;}
 
-  /* delivery fees */
-  .fees-grid{display:grid;grid-template-columns:1fr 1.2fr;gap:36px;align-items:start;}
-  .fees-card{background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden;}
-  .fees-table{width:100%;border-collapse:collapse;font-size:.9rem;}
-  .fees-table th{background:var(--cream-2);text-align:left;padding:12px 16px;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);}
-  .fees-table td{padding:13px 16px;border-top:1px solid var(--line);}
+  /* ---------- delivery fees ---------- */
+  .fees-sec{padding-block:0 96px;}
+  .fees-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:36px 56px;align-items:start;}
+  .fees-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;}
+  .fees-table{width:100%;border-collapse:collapse;font:400 14px/1.2 var(--mono);font-variant-numeric:tabular-nums;}
+  .fees-table th{padding:14px 18px;text-align:left;background:var(--surface-2);font:500 10.5px/1.3 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);}
+  .fees-table td{padding:14px 18px;border-top:1px solid var(--line);color:var(--text-soft);}
   .fees-table td:not(:first-child),.fees-table th:not(:first-child){text-align:right;}
-  .fees-table td:not(:first-child){font-weight:700;color:var(--gold-dark);}
-  .fees-note{font-size:.78rem;color:var(--ink-soft);padding:12px 16px;border-top:1px solid var(--line);margin:0;line-height:1.5;}
-  .fees-points{list-style:none;margin:0;padding:0;display:grid;gap:14px;}
-  .fees-points li{padding-left:22px;position:relative;font-size:.92rem;line-height:1.6;color:var(--ink-soft);}
-  .fees-points li b{color:var(--ink);}
-  .fees-points li::before{content:"";position:absolute;left:0;top:.62em;width:10px;height:1px;background:var(--gold);}
+  .fees-table td:not(:first-child){color:var(--text);}
+  .fees-note{margin:0;padding:14px 18px;border-top:1px solid var(--line);font-size:12.5px;line-height:1.5;color:var(--muted);}
+  .fees-points{list-style:none;margin:26px 0 0;padding:0;display:grid;gap:14px;}
+  .fees-points li{position:relative;padding-left:24px;font-size:15px;line-height:1.6;color:var(--text-soft);}
+  .fees-points li b{color:var(--text);font-weight:600;}
+  .fees-points li::before{content:"";position:absolute;left:0;top:.72em;width:12px;height:1px;background:var(--pool);}
 
-  #faq-visible{max-width:900px!important;padding-top:64px!important;}
-  #faq-visible .faqv summary{font-family:"Playfair Display",Georgia,serif;font-size:1.05rem;font-weight:600;}
-  #faq-visible .faqv p{font-size:.92rem;}
+  /* ---------- generated FAQ + footer ---------- */
+  #faq-visible{max-width:960px!important;padding-top:40px!important;}
+  #faq-visible .faqv-eyebrow{font-family:var(--mono);letter-spacing:.22em;}
+  #faq-visible .faqv-title{font-size:clamp(24px,2.8vw,34px)!important;letter-spacing:.03em;text-transform:uppercase;}
+  #faq-visible .faqv summary{font:500 17px/1.4 var(--body);}
+  #faq-visible .faqv p{font-size:15px;color:var(--text-soft);opacity:1;}
+  footer.services{max-width:1400px;margin:0 auto;padding-block:20px 60px;padding-inline:var(--gut);}
+  .services-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:36px 24px;text-align:center;margin-bottom:40px;}
+  .services-card h3{margin:0 0 6px;font-size:20px;letter-spacing:.06em;text-transform:uppercase;}
+  .services-card p{margin:0 0 18px;font-size:14px;color:var(--muted);}
+  .services-links{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-bottom:18px;}
+  .services-links a{display:inline-block;padding:10px 18px;border:1px solid var(--line-strong);border-radius:999px;color:var(--text);font:700 11px/1 var(--body);letter-spacing:.12em;text-transform:uppercase;text-decoration:none;}
+  .services-links a:hover{border-color:var(--pool);}
+  .services-card .contact-line{font-size:13px;color:var(--muted);}
+  .services-card .contact-line a{color:var(--pool);}
 
   @media (max-width: 980px){
-    .intro-grid,.fees-grid{grid-template-columns:1fr;}
-    .intro-strip{display:none;}
-    .steps-g{grid-template-columns:repeat(2,1fr);}
+    .layout{flex-direction:column;align-items:stretch;padding-bottom:48px;}
+    aside.cart{display:none;}
+    .mobile-cart-bar{display:flex;}
+    body{padding-bottom:64px;}
+    .site-nav{display:none;}
+    .shop-head,.sec-head,.fees-grid{grid-template-columns:1fr;}
     .stats-g{grid-template-columns:repeat(2,1fr);}
     .stats-g div:nth-child(3){border-left:none;}
     .stats-g div:nth-child(n+3){border-top:1px solid var(--line);}
-    .gal-g{grid-template-columns:repeat(2,1fr);grid-auto-rows:clamp(140px,42vw,260px);}
-    body{padding-bottom:64px;}
+    .split{grid-template-columns:1fr;min-height:0;}
+    .split-media{min-height:0;aspect-ratio:4/3;}
+    .split.reverse .split-media{order:0;}
   }
   @media (max-width: 640px){
-    header.top{padding:12px 16px 14px;}
-    .brand-nav{margin-bottom:8px;gap:4px;}
-    .brand-nav img.whale-logo{height:44px;}
-    header.top h1{font-size:1.25rem;}
-    header.top p.tag{font-size:.78rem;}
-    .search-bar{margin-top:10px;}
-    .sec-g{padding:48px 0;}
-    .steps-g{grid-template-columns:1fr;}
-    .vs-table,.vs-table tbody,.vs-table tr,.vs-table td{display:block;width:auto!important;}
-    .vs-table thead{display:none;}
-    .vs-table tr{border-top:1px solid rgba(255,255,255,.14);padding:14px 0;}
-    .vs-table td{border:none;padding:4px 0;}
-    .vs-table td:first-child{padding:0 0 6px;}
-    .vs-table td.them::before{content:"Going yourself: ";font-weight:700;color:rgba(244,238,226,.5);}
-    .vs-table td.us{background:none;}
+    .hdr-row{flex-wrap:wrap;gap:10px 14px;padding-block:10px;}
+    .brand img.whale-logo{height:28px;}
+    .wordmark{font-size:13px;letter-spacing:.12em;}
+    .order-pill{margin-left:auto;padding:9px 12px;}
+    .search-bar{order:3;flex-basis:100%;max-width:none;margin-left:0;}
+    .search-bar input{padding:10px 16px;}
+    .hero-c{min-height:600px;}
+    .hero-inner{padding-block:calc(var(--hdr,110px) + 28px) 28px;}
+    .hero-glass{border-radius:18px;}
+    .hero-lead{font-size:15.5px;}
+    .hero-facts{gap:6px 16px;font-size:11px;}
+    .shop-head{padding-block:52px 22px;}
+    .gal-g{grid-template-columns:1fr;}
+    .gallery-sec{padding-block:64px;}
+    .vs li{grid-template-columns:1fr;}
+    .vs .us{grid-column:1;}
+    .product-row{padding:13px 14px;gap:10px;}
+    .prod-price{width:62px;}
+    .prod-linetotal{display:none;}
     .lb-prev,.lb-next{top:auto;bottom:18px;transform:none;}
+  }
+  @media (max-width: 440px){
+    .wordmark{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;}
   }
   @media (prefers-reduced-motion: reduce){
     html{scroll-behavior:auto;}
-    .gal-g img{transition:none;}
+    .gal-g img,.btn-primary,header.top{transition:none;}
   }
 </style>
 <!-- ctb-seo-v2 --></head>
 <body>
 
 <header class="top">
-  <div class="brand-nav">
-    <img class="whale-logo" src="https://static.wixstatic.com/media/5f6069_b7f92de9d2b14fc886c885f0304dfb6a~mv2.png" alt="Cabo Travel Boutique whale logo — villa grocery delivery Los Cabos">
-    <nav class="site-nav">
+  <div class="hdr-row">
+    <a class="brand" href="https://www.privatechefloscabos.com/" aria-label="Cabo Travel Boutique home">
+      <img class="whale-logo" src="https://static.wixstatic.com/media/5f6069_b7f92de9d2b14fc886c885f0304dfb6a~mv2.png" alt="Cabo Travel Boutique whale logo — villa grocery delivery Los Cabos">
+      <span class="wordmark">Cabo Travel Boutique</span>
+    </a>
+    <nav class="site-nav" aria-label="Cabo Travel Boutique">
       <a href="https://privatechef.privatechefloscabos.com/">Chef</a>
       <a href="https://www.privatechefloscabos.com/orchardloscabos">Orchard</a>
       <a href="https://privatetransportation.privatechefloscabos.com/">Travel</a>
       <a href="https://www.privatechefloscabos.com/cabolifestyle">Lifestyle</a>
     </nav>
-  </div>
-  <div class="brand-text">
-      <p class="eyebrow">Cabo Travel Boutique</p>
-      <h1>Grocery Delivery in Cabo</h1>
-      <p class="tag">Avoid lines, don't waste your time — we stock your villa before you arrive.</p>
-  </div>
-  <div class="search-bar">
-    <input type="text" id="searchInput" placeholder="Search for a product (e.g. tequila, milk, shrimp...)">
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="Search tequila, milk, shrimp…" aria-label="Search the grocery catalog">
+    </div>
+    <button class="order-pill" id="orderPill" type="button" aria-label="View your order">Order · <span id="orderPillTotal">$0.00</span></button>
   </div>
 </header>
 
-<section class="intro-g" aria-labelledby="intro-title">
-  <div class="wrap-g intro-grid">
-    <div>
-      <span class="eyebrow-g">Online grocery service · Los Cabos</span>
-      <h2 id="intro-title" class="serif">Your villa, stocked before you land in Cabo San Lucas or San José del Cabo</h2>
-      <p class="lead">Pick from 312 groceries, fresh produce, drinks, beer, wine and tequila, with a price on every item. We do the shopping, deliver to your villa, and put everything away in the fridge, freezer and pantry, so your first stop is the pool, not the supermarket.</p>
-      <ul class="chips">
+<section class="hero-c" aria-labelledby="pageTitle">
+  <img class="hero-img" src="assets/hero/villa-pool-los-cabos-1200.jpg" srcset="assets/hero/villa-pool-los-cabos-1200.jpg 1200w, assets/hero/villa-pool-los-cabos-2000.jpg 2000w" sizes="100vw" alt="Infinity pool and palapas at an oceanfront villa in Los Cabos" width="2000" height="1500" fetchpriority="high">
+  <div class="hero-inner">
+    <div class="hero-glass">
+      <p class="kicker">Cabo Travel Boutique · Online grocery service</p>
+      <h1 id="pageTitle">Grocery Delivery <i>in Cabo</i></h1>
+      <p class="hero-lead">Avoid lines, don't waste your time — we stock your villa in Cabo San Lucas or San José del Cabo before you arrive.</p>
+      <div class="hero-cta">
+        <a class="btn-primary" id="shopNowBtn" href="#catalogCol" data-track="shop_now_click" data-where="hero">Start shopping <span aria-hidden="true">→</span></a>
+        <a class="btn-text" href="#why-not-the-store">Why not the store?</a>
+      </div>
+      <ul class="hero-facts">
         <li>Stocked before you arrive</li>
         <li>Put away, not left at the door</li>
         <li>Delivery 7 days a week</li>
         <li>Farm eggs from Orchard Los Cabos</li>
       </ul>
-      <div class="intro-links">
-        <a href="#how-it-works">How it works</a>
-        <a href="#why-not-the-store">Why not just go to the store?</a>
-        <a href="#delivery-fees">Delivery fees</a>
-        <a href="#faq-visible">Questions</a>
-      </div>
-    </div>
-    <div class="intro-strip" aria-hidden="true">
-      <img src="assets/gallery/villa-fridge-stocked-before-arrival-600.jpg" alt="" width="450" height="600" fetchpriority="high">
-      <img src="assets/gallery/grocery-cart-fresh-produce-cabo-600.jpg" alt="" width="338" height="600">
-      <img src="assets/gallery/orchard-farm-eggs-villa-kitchen-600.jpg" alt="" width="467" height="600">
     </div>
   </div>
 </section>
-<div class="catalog-hint"><h2>Shop the catalog</h2><span>Open a category, tap + to add. Your order builds on the right.</span></div>
+
+<div class="shop-head">
+  <div>
+    <p class="kicker">Shop the catalog</p>
+    <h2 class="shop-title">312 products, priced before you order</h2>
+  </div>
+  <p class="shop-note">Pick groceries, fresh produce, drinks, beer, wine and tequila. We do the shopping, deliver to your villa, and put everything away in the fridge, freezer and pantry — so your first stop is the pool, not the supermarket. Open a category and tap + to add.</p>
+</div>
 
 <div class="layout">
   <div class="catalog-col" id="catalogCol"></div>
 
   <aside class="cart">
     <div class="cart-box">
-      <h2>🛒 Your order</h2>
+      <h2>Your order</h2>
       <div class="cart-items" id="cartItems"></div>
 
       <div class="zone-pay-box">
@@ -931,85 +518,82 @@
   </aside>
 </div>
 
-<section class="sec-g" id="how-it-works" aria-labelledby="how-title">
-  <div class="wrap-g">
-    <div class="stats-g" style="margin-bottom:56px">
-      <div><b>312</b><span>Products online</span></div>
-      <div><b>7 days</b><span>A week delivery</span></div>
-      <div><b>24–48 h</b><span>Recommended notice</span></div>
-      <div><b>5.0 ★</b><span>86 Google reviews</span></div>
-    </div>
-    <div class="sec-head">
-      <span class="eyebrow-g">How it works</span>
-      <h2 id="how-title">Online grocery delivery in Cabo, in four steps</h2>
-      <p>No app, no account. The cart above is the whole process: you choose, we shop, and the villa is ready when you get there.</p>
-    </div>
-    <ol class="steps-g">
-      <li><h3>Fill your cart</h3><p>Groceries, produce, deli, beer, wine and tequila, each with its price. Anything missing goes in Special Requests and we quote it.</p></li>
-      <li><h3>Send your order</h3><p>Choose San José del Cabo or Cabo San Lucas, your villa, date and time. Your email app opens with the full summary for our team.</p></li>
-      <li><h3>Pay by secure link</h3><p>We email you a Stripe link: a 30% deposit with the rest in cash on delivery, or 100% online.</p></li>
-      <li><h3>Walk into a stocked villa</h3><p>We coordinate access with your property manager or concierge and put everything away in the fridge, freezer and pantry.</p></li>
-    </ol>
+<section id="how-it-works" aria-labelledby="how-title">
+  <div class="stats-g">
+    <div><b>312</b><span>Products online</span></div>
+    <div><b>7 days</b><span>A week delivery</span></div>
+    <div><b>24–48 h</b><span>Recommended notice</span></div>
+    <div><b>5.0 ★</b><span>86 Google reviews</span></div>
   </div>
-</section>
-
-<section class="sec-g vs-band" id="why-not-the-store" aria-labelledby="vs-title">
-  <div class="wrap-g">
-    <div class="sec-head">
-      <span class="eyebrow-g">Why use a grocery delivery service</span>
-      <h2 id="vs-title">Why not just go to the grocery store in Cabo yourself?</h2>
-      <p>You can. Cabo has big supermarkets and warehouse clubs. The question is what your first afternoon of vacation is worth.</p>
-    </div>
-    <table class="vs-table">
-      <thead><tr><th scope="col"><span class="sr-only" style="position:absolute;left:-9999px">Topic</span></th><th scope="col">Going to the store yourself</th><th scope="col" class="us">Ordering with us</th></tr></thead>
-      <tbody>
-        <tr><td>When</td><td class="them">After the flight, on your first afternoon, before anyone has seen the pool.</td><td class="us">Before you land. The fridge is full when you open the door.</td></tr>
-        <tr><td>Getting there</td><td class="them">Rent a car or book a ride, find parking, then drive back loaded.</td><td class="us">Nothing to drive. We bring it to the villa.</td></tr>
-        <tr><td>Finding things</td><td class="them">Aisles labeled in Spanish, metric sizes, hunting for the brands you know.</td><td class="us">Search this page in English: Tito's, Häagen-Dazs, oat milk, Casamigos, Pacífico.</td></tr>
-        <tr><td>The heavy part</td><td class="them">Carrying cases of beer, water jugs and bags of ice into the villa, then unpacking.</td><td class="us">Our team carries it in and puts it away in the fridge, freezer and pantry.</td></tr>
-        <tr><td>Out of stock</td><td class="them">Improvise in the aisle and hope it's right.</td><td class="us">We message you on WhatsApp before swapping any brand.</td></tr>
-        <tr><td>The bill</td><td class="them">You find out at the register.</td><td class="us">Every item priced here; the delivery fee shows in your cart before you send.</td></tr>
-        <tr><td>Freshness</td><td class="them">Whatever is on the shelf that day.</td><td class="us">Produce chosen piece by piece, and organic eggs from Orchard Los Cabos, our own farm.</td></tr>
-      </tbody>
-    </table>
-    <div class="vs-cta">
-      <a class="btn-g" href="#catalogCol">Start your grocery order</a>
-      <a class="btn-g ghost" href="https://wa.me/526241198107?text=Hi!%20I%20have%20a%20question%20about%20grocery%20delivery%20for%20my%20villa" target="_blank" rel="noopener">Ask us on WhatsApp</a>
+  <div class="split reverse">
+    <div class="split-media"><img src="assets/gallery/oceanfront-villa-dining-los-cabos.jpg" alt="Oceanfront villa dining room with glass walls in Los Cabos" width="900" height="1200" loading="lazy" decoding="async"></div>
+    <div class="split-copy">
+      <p class="kicker">How it works</p>
+      <h2 class="h2" id="how-title">Online grocery delivery in Cabo, in four steps</h2>
+      <p class="sec-lead">No app, no account. The cart above is the whole process: you choose, we shop, and the villa is ready when you get there.</p>
+      <ol class="steps">
+        <li><div><h3>Fill your cart</h3><p>Groceries, produce, deli, beer, wine and tequila, each with its price. Anything missing goes in Special Requests and we quote it.</p></div></li>
+        <li><div><h3>Send your order</h3><p>Choose San José del Cabo or Cabo San Lucas, your villa, date and time. Your email app opens with the full summary for our team.</p></div></li>
+        <li><div><h3>Pay by secure link</h3><p>We email you a Stripe link: a 30% deposit with the rest in cash on delivery, or 100% online.</p></div></li>
+        <li><div><h3>Walk into a stocked villa</h3><p>We coordinate access with your property manager or concierge and put everything away in the fridge, freezer and pantry.</p></div></li>
+      </ol>
     </div>
   </div>
 </section>
 
-<section class="sec-g" id="gallery" aria-labelledby="gal-title">
+<section class="split" id="why-not-the-store" aria-labelledby="vs-title">
+  <div class="split-media"><img src="assets/gallery/fresh-produce-los-cabos-market.jpg" alt="Buckets of fresh beets, radishes, carrots and leafy greens at a produce market" width="1200" height="900" loading="lazy" decoding="async"></div>
+  <div class="split-copy">
+    <p class="kicker">Why use a grocery delivery service</p>
+    <h2 class="h2" id="vs-title">Why not just go to the grocery store in Cabo yourself?</h2>
+    <p class="sec-lead">You can. Cabo has big supermarkets and warehouse clubs. The question is what your first afternoon of vacation is worth.</p>
+    <ul class="vs">
+      <li><span class="lbl">When</span><span class="them">After the flight, on your first afternoon, before anyone has seen the pool.</span><span class="us">Before you land. The fridge is full when you open the door.</span></li>
+      <li><span class="lbl">Getting there</span><span class="them">Rent a car or book a ride, find parking, then drive back loaded.</span><span class="us">Nothing to drive. We bring it to the villa.</span></li>
+      <li><span class="lbl">Finding things</span><span class="them">Aisles labeled in Spanish, metric sizes, hunting for the brands you know.</span><span class="us">Search this page in English: Tito's, Häagen-Dazs, oat milk, Casamigos, Pacífico.</span></li>
+      <li><span class="lbl">The heavy part</span><span class="them">Carrying cases of beer, water jugs and bags of ice into the villa, then unpacking.</span><span class="us">Our team carries it in and puts it away in the fridge, freezer and pantry.</span></li>
+      <li><span class="lbl">Out of stock</span><span class="them">Improvise in the aisle and hope it's right.</span><span class="us">We message you on WhatsApp before swapping any brand.</span></li>
+      <li><span class="lbl">The bill</span><span class="them">You find out at the register.</span><span class="us">Every item priced here; the delivery fee shows in your cart before you send.</span></li>
+      <li><span class="lbl">Freshness</span><span class="them">Whatever is on the shelf that day.</span><span class="us">Produce chosen piece by piece, and organic eggs from Orchard Los Cabos, our own farm.</span></li>
+    </ul>
+    <div class="cta-row">
+      <a class="btn-primary" href="#catalogCol" data-track="shop_now_click" data-where="why_not_the_store">Start your grocery order <span aria-hidden="true">→</span></a>
+      <a class="btn-ghost" href="https://wa.me/526241198107?text=Hi!%20I%20have%20a%20question%20about%20grocery%20delivery%20for%20my%20villa" target="_blank" rel="noopener">Ask us on WhatsApp</a>
+    </div>
+  </div>
+</section>
+
+<section class="gallery-sec" id="gallery" aria-labelledby="gal-title">
   <div class="wrap-g">
-    <div class="sec-head center">
-      <span class="eyebrow-g">From the market to your fridge</span>
-      <h2 id="gal-title">What arrives at your villa</h2>
+    <div class="sec-head">
+      <div><p class="kicker">From the market to your fridge</p><h2 class="h2" id="gal-title">What arrives at your villa</h2></div>
       <p>Fresh produce, deli, farm eggs, drinks and tequila — shopped, delivered and put away. Tap any photo to enlarge.</p>
     </div>
     <div class="gal-g" id="galleryGrid">
-    <figure class="t-hero"><button type="button" data-full="assets/gallery/villa-fridge-stocked-before-arrival.jpg" aria-label="Enlarge photo: A villa fridge, stocked and put away"><img src="assets/gallery/villa-fridge-stocked-before-arrival-600.jpg" srcset="assets/gallery/villa-fridge-stocked-before-arrival-600.jpg 600w, assets/gallery/villa-fridge-stocked-before-arrival.jpg 1200w" sizes="(max-width: 980px) 100vw, 50vw" alt="Villa refrigerator in Los Cabos stocked with bottled water, soft drinks, fruit and groceries" width="900" height="1200" loading="lazy" decoding="async"></button><figcaption>A villa fridge, stocked and put away</figcaption></figure>
-    <figure class="t-wide"><button type="button" data-full="assets/gallery/fresh-produce-los-cabos-market.jpg" aria-label="Enlarge photo: Fresh produce, picked by hand"><img src="assets/gallery/fresh-produce-los-cabos-market-600.jpg" srcset="assets/gallery/fresh-produce-los-cabos-market-600.jpg 600w, assets/gallery/fresh-produce-los-cabos-market.jpg 1200w" sizes="(max-width: 980px) 50vw, 25vw" alt="Buckets of fresh beets, radishes, carrots and leafy greens at a produce market" width="1200" height="900" loading="lazy" decoding="async"></button><figcaption>Fresh produce, picked by hand</figcaption></figure>
-    <figure><button type="button" data-full="assets/gallery/grocery-cart-fresh-produce-cabo.jpg" aria-label="Enlarge photo: Chosen piece by piece"><img src="assets/gallery/grocery-cart-fresh-produce-cabo-600.jpg" srcset="assets/gallery/grocery-cart-fresh-produce-cabo-600.jpg 600w, assets/gallery/grocery-cart-fresh-produce-cabo.jpg 1200w" sizes="(max-width: 980px) 50vw, 25vw" alt="Shopping cart filled with cucumbers, lemons, pineapple, mango, potatoes and berries" width="675" height="1200" loading="lazy" decoding="async"></button><figcaption>Chosen piece by piece</figcaption></figure>
-    <figure><button type="button" data-full="assets/gallery/orchard-farm-eggs-villa-kitchen.jpg" aria-label="Enlarge photo: Farm eggs from Orchard Los Cabos"><img src="assets/gallery/orchard-farm-eggs-villa-kitchen-600.jpg" srcset="assets/gallery/orchard-farm-eggs-villa-kitchen-600.jpg 600w, assets/gallery/orchard-farm-eggs-villa-kitchen.jpg 1200w" sizes="(max-width: 980px) 50vw, 25vw" alt="Basket of brown, cream and blue-green farm eggs from Orchard Los Cabos on a villa terrace above the ocean" width="934" height="1200" loading="lazy" decoding="async"></button><figcaption>Farm eggs from Orchard Los Cabos</figcaption></figure>
-    <figure><button type="button" data-full="assets/gallery/tequila-limes-villa-delivery.jpg" aria-label="Enlarge photo: Tequila, limes and salt"><img src="assets/gallery/tequila-limes-villa-delivery-600.jpg" srcset="assets/gallery/tequila-limes-villa-delivery-600.jpg 600w, assets/gallery/tequila-limes-villa-delivery.jpg 1200w" sizes="(max-width: 980px) 50vw, 25vw" alt="Shots of tequila with lime wedges and salt on a wooden table at golden hour" width="1200" height="800" loading="lazy" decoding="async"></button><figcaption>Tequila, limes and salt</figcaption></figure>
-    <figure><button type="button" data-full="assets/gallery/cheese-salami-grapes-villa.jpg" aria-label="Enlarge photo: Cheese, salami and grapes"><img src="assets/gallery/cheese-salami-grapes-villa-600.jpg" srcset="assets/gallery/cheese-salami-grapes-villa-600.jpg 600w, assets/gallery/cheese-salami-grapes-villa.jpg 1200w" sizes="(max-width: 980px) 50vw, 25vw" alt="Cheese cubes, salami, olives and red grapes set out on a villa table with candles" width="900" height="1200" loading="lazy" decoding="async"></button><figcaption>Cheese, salami and grapes</figcaption></figure>
-    <figure><button type="button" data-full="assets/gallery/seasonal-fruit-platter-cabo.jpg" aria-label="Enlarge photo: Seasonal fruit for the first breakfast"><img src="assets/gallery/seasonal-fruit-platter-cabo-600.jpg" srcset="assets/gallery/seasonal-fruit-platter-cabo-600.jpg 600w, assets/gallery/seasonal-fruit-platter-cabo.jpg 1200w" sizes="(max-width: 980px) 50vw, 25vw" alt="Platter of cut watermelon, pineapple, papaya, grapes and mint on a kitchen counter" width="900" height="1200" loading="lazy" decoding="async"></button><figcaption>Seasonal fruit for the first breakfast</figcaption></figure>
-    <figure><button type="button" data-full="assets/gallery/margarita-bar-tequila-villa.jpg" aria-label="Enlarge photo: Margarita night, ready to pour"><img src="assets/gallery/margarita-bar-tequila-villa-600.jpg" srcset="assets/gallery/margarita-bar-tequila-villa-600.jpg 600w, assets/gallery/margarita-bar-tequila-villa.jpg 1200w" sizes="(max-width: 980px) 50vw, 25vw" alt="Tequila bottles, limes, cucumber, chili salt and colorful margarita glasses on a villa kitchen counter" width="1133" height="749" loading="lazy" decoding="async"></button><figcaption>Margarita night, ready to pour</figcaption></figure>
-    <figure><button type="button" data-full="assets/gallery/watermelon-grapes-juice-breakfast.jpg" aria-label="Enlarge photo: Breakfast staples"><img src="assets/gallery/watermelon-grapes-juice-breakfast-600.jpg" srcset="assets/gallery/watermelon-grapes-juice-breakfast-600.jpg 600w, assets/gallery/watermelon-grapes-juice-breakfast.jpg 1200w" sizes="(max-width: 980px) 50vw, 25vw" alt="Watermelon slices, cherry tomatoes, green grapes, granola and fresh orange juice" width="972" height="1200" loading="lazy" decoding="async"></button><figcaption>Breakfast staples</figcaption></figure>
-    <figure><button type="button" data-full="assets/gallery/guacamole-fresh-salsa-cabo.jpg" aria-label="Enlarge photo: Guacamole, from the deli aisle"><img src="assets/gallery/guacamole-fresh-salsa-cabo-600.jpg" srcset="assets/gallery/guacamole-fresh-salsa-cabo-600.jpg 600w, assets/gallery/guacamole-fresh-salsa-cabo.jpg 1200w" sizes="(max-width: 980px) 50vw, 25vw" alt="Guacamole with onion rings in a talavera bowl next to tostadas" width="900" height="1200" loading="lazy" decoding="async"></button><figcaption>Guacamole, from the deli aisle</figcaption></figure>
-    <figure><button type="button" data-full="assets/gallery/oceanfront-villa-dining-los-cabos.jpg" aria-label="Enlarge photo: Your villa, ready when you walk in"><img src="assets/gallery/oceanfront-villa-dining-los-cabos-600.jpg" srcset="assets/gallery/oceanfront-villa-dining-los-cabos-600.jpg 600w, assets/gallery/oceanfront-villa-dining-los-cabos.jpg 1200w" sizes="(max-width: 980px) 50vw, 25vw" alt="Oceanfront villa dining room with glass walls in Los Cabos" width="900" height="1200" loading="lazy" decoding="async"></button><figcaption>Your villa, ready when you walk in</figcaption></figure>
-    <figure><button type="button" data-full="assets/gallery/guests-toasting-villa-cabo.jpg" aria-label="Enlarge photo: The first night, not a supermarket run"><img src="assets/gallery/guests-toasting-villa-cabo-600.jpg" srcset="assets/gallery/guests-toasting-villa-cabo-600.jpg 600w, assets/gallery/guests-toasting-villa-cabo.jpg 1200w" sizes="(max-width: 980px) 50vw, 25vw" alt="Guests raising their glasses around a long table in a Los Cabos villa" width="900" height="1200" loading="lazy" decoding="async"></button><figcaption>The first night, not a supermarket run</figcaption></figure>
+      <figure><button type="button" data-full="assets/gallery/villa-fridge-stocked-before-arrival.jpg" aria-label="Enlarge photo: A villa fridge, stocked and put away"><img src="assets/gallery/villa-fridge-stocked-before-arrival-600.jpg" srcset="assets/gallery/villa-fridge-stocked-before-arrival-600.jpg 600w, assets/gallery/villa-fridge-stocked-before-arrival.jpg 1200w" sizes="(max-width: 640px) 100vw, 50vw" alt="Villa refrigerator in Los Cabos stocked with bottled water, soft drinks, fruit and groceries" width="900" height="1200" loading="lazy" decoding="async"></button><figcaption>A villa fridge, stocked and put away</figcaption></figure>
+      <figure><button type="button" data-full="assets/gallery/fresh-produce-los-cabos-market.jpg" aria-label="Enlarge photo: Fresh produce, picked by hand"><img src="assets/gallery/fresh-produce-los-cabos-market-600.jpg" srcset="assets/gallery/fresh-produce-los-cabos-market-600.jpg 600w, assets/gallery/fresh-produce-los-cabos-market.jpg 1200w" sizes="(max-width: 640px) 100vw, 50vw" alt="Buckets of fresh beets, radishes, carrots and leafy greens at a produce market" width="1200" height="900" loading="lazy" decoding="async"></button><figcaption>Fresh produce, picked by hand</figcaption></figure>
+      <figure><button type="button" data-full="assets/gallery/orchard-farm-eggs-villa-kitchen.jpg" aria-label="Enlarge photo: Farm eggs from Orchard Los Cabos"><img src="assets/gallery/orchard-farm-eggs-villa-kitchen-600.jpg" srcset="assets/gallery/orchard-farm-eggs-villa-kitchen-600.jpg 600w, assets/gallery/orchard-farm-eggs-villa-kitchen.jpg 1200w" sizes="(max-width: 640px) 100vw, 50vw" alt="Basket of brown, cream and blue-green farm eggs from Orchard Los Cabos on a villa terrace above the ocean" width="934" height="1200" loading="lazy" decoding="async"></button><figcaption>Farm eggs from Orchard Los Cabos</figcaption></figure>
+      <figure><button type="button" data-full="assets/gallery/tequila-limes-villa-delivery.jpg" aria-label="Enlarge photo: Tequila, limes and salt"><img src="assets/gallery/tequila-limes-villa-delivery-600.jpg" srcset="assets/gallery/tequila-limes-villa-delivery-600.jpg 600w, assets/gallery/tequila-limes-villa-delivery.jpg 1200w" sizes="(max-width: 640px) 100vw, 50vw" alt="Shots of tequila with lime wedges and salt on a wooden table at golden hour" width="1200" height="800" loading="lazy" decoding="async"></button><figcaption>Tequila, limes and salt</figcaption></figure>
+      <figure><button type="button" data-full="assets/gallery/cheese-salami-grapes-villa.jpg" aria-label="Enlarge photo: Cheese, salami and grapes"><img src="assets/gallery/cheese-salami-grapes-villa-600.jpg" srcset="assets/gallery/cheese-salami-grapes-villa-600.jpg 600w, assets/gallery/cheese-salami-grapes-villa.jpg 1200w" sizes="(max-width: 640px) 100vw, 50vw" alt="Cheese cubes, salami, olives and red grapes set out on a villa table with candles" width="900" height="1200" loading="lazy" decoding="async"></button><figcaption>Cheese, salami and grapes</figcaption></figure>
+      <figure><button type="button" data-full="assets/gallery/seasonal-fruit-platter-cabo.jpg" aria-label="Enlarge photo: Seasonal fruit for the first breakfast"><img src="assets/gallery/seasonal-fruit-platter-cabo-600.jpg" srcset="assets/gallery/seasonal-fruit-platter-cabo-600.jpg 600w, assets/gallery/seasonal-fruit-platter-cabo.jpg 1200w" sizes="(max-width: 640px) 100vw, 50vw" alt="Platter of cut watermelon, pineapple, papaya, grapes and mint on a kitchen counter" width="900" height="1200" loading="lazy" decoding="async"></button><figcaption>Seasonal fruit for the first breakfast</figcaption></figure>
+      <figure class="more"><button type="button" data-full="assets/gallery/guests-toasting-villa-cabo.jpg" aria-label="Enlarge photo: The first night, not a supermarket run"><img src="assets/gallery/guests-toasting-villa-cabo-600.jpg" srcset="assets/gallery/guests-toasting-villa-cabo-600.jpg 600w, assets/gallery/guests-toasting-villa-cabo.jpg 1200w" sizes="(max-width: 640px) 100vw, 50vw" alt="Guests raising their glasses around a long table in a Los Cabos villa" width="900" height="1200" loading="lazy" decoding="async"></button><figcaption>The first night, not a supermarket run</figcaption></figure>
+      <figure class="more"><button type="button" data-full="assets/gallery/grocery-cart-fresh-produce-cabo.jpg" aria-label="Enlarge photo: Chosen piece by piece"><img src="assets/gallery/grocery-cart-fresh-produce-cabo-600.jpg" srcset="assets/gallery/grocery-cart-fresh-produce-cabo-600.jpg 600w, assets/gallery/grocery-cart-fresh-produce-cabo.jpg 1200w" sizes="(max-width: 640px) 100vw, 50vw" alt="Shopping cart filled with cucumbers, lemons, pineapple, mango, potatoes and berries" width="675" height="1200" loading="lazy" decoding="async"></button><figcaption>Chosen piece by piece</figcaption></figure>
+      <figure class="more"><button type="button" data-full="assets/gallery/margarita-bar-tequila-villa.jpg" aria-label="Enlarge photo: Margarita night, ready to pour"><img src="assets/gallery/margarita-bar-tequila-villa-600.jpg" srcset="assets/gallery/margarita-bar-tequila-villa-600.jpg 600w, assets/gallery/margarita-bar-tequila-villa.jpg 1200w" sizes="(max-width: 640px) 100vw, 50vw" alt="Tequila bottles, limes, cucumber, chili salt and colorful margarita glasses on a villa kitchen counter" width="1133" height="749" loading="lazy" decoding="async"></button><figcaption>Margarita night, ready to pour</figcaption></figure>
+      <figure class="more"><button type="button" data-full="assets/gallery/watermelon-grapes-juice-breakfast.jpg" aria-label="Enlarge photo: Breakfast staples"><img src="assets/gallery/watermelon-grapes-juice-breakfast-600.jpg" srcset="assets/gallery/watermelon-grapes-juice-breakfast-600.jpg 600w, assets/gallery/watermelon-grapes-juice-breakfast.jpg 1200w" sizes="(max-width: 640px) 100vw, 50vw" alt="Watermelon slices, cherry tomatoes, green grapes, granola and fresh orange juice" width="972" height="1200" loading="lazy" decoding="async"></button><figcaption>Breakfast staples</figcaption></figure>
+      <figure class="more"><button type="button" data-full="assets/gallery/guacamole-fresh-salsa-cabo.jpg" aria-label="Enlarge photo: Guacamole, from the deli aisle"><img src="assets/gallery/guacamole-fresh-salsa-cabo-600.jpg" srcset="assets/gallery/guacamole-fresh-salsa-cabo-600.jpg 600w, assets/gallery/guacamole-fresh-salsa-cabo.jpg 1200w" sizes="(max-width: 640px) 100vw, 50vw" alt="Guacamole with onion rings in a talavera bowl next to tostadas" width="900" height="1200" loading="lazy" decoding="async"></button><figcaption>Guacamole, from the deli aisle</figcaption></figure>
+      <figure class="more"><button type="button" data-full="assets/gallery/oceanfront-villa-dining-los-cabos.jpg" aria-label="Enlarge photo: Your villa, ready when you walk in"><img src="assets/gallery/oceanfront-villa-dining-los-cabos-600.jpg" srcset="assets/gallery/oceanfront-villa-dining-los-cabos-600.jpg 600w, assets/gallery/oceanfront-villa-dining-los-cabos.jpg 1200w" sizes="(max-width: 640px) 100vw, 50vw" alt="Oceanfront villa dining room with glass walls in Los Cabos" width="900" height="1200" loading="lazy" decoding="async"></button><figcaption>Your villa, ready when you walk in</figcaption></figure>
     </div>
+    <div class="gal-more"><button class="btn-ghost" id="galMore" type="button" aria-expanded="false" aria-controls="galleryGrid">Show all 12 photos</button></div>
   </div>
 </section>
 
-<section class="sec-g" id="delivery-fees" aria-labelledby="fees-title" style="padding-top:12px">
+<section class="fees-sec" id="delivery-fees" aria-labelledby="fees-title">
   <div class="wrap-g fees-grid">
-    <div class="sec-head" style="margin:0">
-      <span class="eyebrow-g">Delivery fees</span>
-      <h2 id="fees-title">What grocery delivery costs in Los Cabos</h2>
-      <p>One fixed fee per order, set by the size of your order and the zone. No per-item charges and no surprises: your cart shows the exact fee before you send.</p>
-      <ul class="fees-points" style="margin-top:22px">
+    <div>
+      <p class="kicker">Delivery fees</p>
+      <h2 class="h2" id="fees-title">What grocery delivery costs in Los Cabos</h2>
+      <p class="sec-lead">One fixed fee per order, set by the size of your order and the zone. No per-item charges and no surprises: your cart shows the exact fee before you send.</p>
+      <ul class="fees-points">
         <li><b>Two zones.</b> San José del Cabo and Cabo San Lucas, including the Tourist Corridor between them.</li>
         <li><b>Two ways to pay.</b> A 30% deposit online with the rest in cash on delivery, or 100% online by Stripe link.</li>
         <li><b>Tax only online.</b> 8.5% applies to the amount paid online; cash on delivery is tax-free.</li>
@@ -1105,7 +689,7 @@
 
 <div class="modal-overlay" id="modalOverlay">
   <div class="modal">
-    <h3>🛒 Your order</h3>
+    <h3>Your order</h3>
     <div id="modalCartItems"></div>
 
     <div class="zone-pay-box">
@@ -1780,6 +1364,63 @@ document.querySelectorAll('#payToggleModal input[name="payTypeModal"]').forEach(
   const set = ()=> document.documentElement.style.setProperty('--hdr', hdr.offsetHeight + 'px');
   set();
   if(window.ResizeObserver) new ResizeObserver(set).observe(hdr); else addEventListener('resize', set);
+})();
+
+// Header: clear over the hero photo, solid once the page scrolls.
+(function(){
+  const hdr = document.querySelector('header.top');
+  if(!hdr) return;
+  const onScroll = ()=> hdr.classList.toggle('scrolled', window.scrollY > 24);
+  onScroll();
+  addEventListener('scroll', onScroll, {passive:true});
+})();
+
+// "Start shopping" buttons: measured in GA4 and Meta, then the anchor scrolls to the catalog.
+document.querySelectorAll('[data-track="shop_now_click"]').forEach(a=>{
+  a.addEventListener('click', ()=>{
+    const where = a.dataset.where || 'hero';
+    if(typeof gtag==='function') gtag('event','shop_now_click',{location:where});
+    if(typeof fbq==='function') fbq('trackCustom','ShopNowClick',{location:where});
+  });
+});
+
+// Order pill in the header mirrors the items subtotal the cart already shows.
+(function(){
+  const pill = document.getElementById('orderPill');
+  const out = document.getElementById('orderPillTotal');
+  const src = document.getElementById('sumItems');
+  if(!pill || !out || !src) return;
+  const sync = ()=>{ out.textContent = src.textContent; };
+  sync();
+  new MutationObserver(sync).observe(src, {childList:true, characterData:true, subtree:true});
+  pill.addEventListener('click', ()=>{
+    if(window.matchMedia('(max-width: 980px)').matches) document.getElementById('mobileCartOpen').click();
+    else document.getElementById('catalogCol').scrollIntoView({behavior:'smooth'});
+  });
+})();
+
+// Searching from the header, above the hero: bring the results into view.
+(function(){
+  const input = document.getElementById('searchInput');
+  const cat = document.getElementById('catalogCol');
+  if(!input || !cat) return;
+  input.addEventListener('input', ()=>{
+    if(input.value.trim() && cat.getBoundingClientRect().top > innerHeight * 0.6) cat.scrollIntoView({behavior:'smooth'});
+  });
+})();
+
+// Gallery: six photos first, the rest on request (all twelve stay in the page and the viewer).
+(function(){
+  const btn = document.getElementById('galMore');
+  const grid = document.getElementById('galleryGrid');
+  if(!btn || !grid) return;
+  const total = grid.children.length;
+  btn.addEventListener('click', ()=>{
+    const open = grid.classList.toggle('expanded');
+    btn.setAttribute('aria-expanded', String(open));
+    btn.textContent = open ? 'Show fewer photos' : `Show all ${total} photos`;
+    if(!open) grid.scrollIntoView({behavior:'smooth', block:'start'});
+  });
 })();
 
 // Fee table: redraw from FEE_TIERS so what the visitor reads is what the cart charges.
