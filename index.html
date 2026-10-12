@@ -117,7 +117,7 @@
     {
       "@type": "Question",
       "name": "How do I pay, and is tax included?",
-      "acceptedAnswer": {"@type": "Answer", "text": "After you send your order we email you a secure Stripe payment link. Choose a 30% deposit online with the remaining 70% in cash on delivery, or pay 100% online. An 8.5% tax applies only to the amount paid online; the cash paid on delivery is tax-free. Prices are in US dollars."}
+      "acceptedAnswer": {"@type": "Answer", "text": "After you send your order we email you a secure Stripe payment link. Choose a 30% deposit online with the remaining 70% in cash on delivery, or pay 100% online. A 8.9% tax applies only to the amount paid online; the cash paid on delivery is tax-free. Prices are in US dollars."}
     }
   ]
 }
@@ -486,11 +486,11 @@
         <div class="pay-toggle" id="payToggle">
           <label class="active" data-val="deposit">
             <input type="radio" name="payType" value="deposit" checked>
-            <span>30% deposit now (+8.5% tax) — remainder in cash on delivery</span>
+            <span>30% deposit now (+8.9% tax) — remainder in cash on delivery</span>
           </label>
           <label data-val="full">
             <input type="radio" name="payType" value="full">
-            <span>Pay 100% now, online (+8.5% tax)</span>
+            <span>Pay 100% now, online (+8.9% tax)</span>
           </label>
         </div>
       </div>
@@ -598,7 +598,7 @@
       <ul class="fees-points">
         <li><b>Two zones.</b> San José del Cabo and Cabo San Lucas, including the Tourist Corridor between them.</li>
         <li><b>Two ways to pay.</b> A 30% deposit online with the rest in cash on delivery, or 100% online by Stripe link.</li>
-        <li><b>Tax only online.</b> 8.5% applies to the amount paid online; cash on delivery is tax-free.</li>
+        <li><b>Tax only online.</b> 8.9% applies to the amount paid online; cash on delivery is tax-free.</li>
       </ul>
     </div>
     <div class="fees-card">
@@ -677,7 +677,7 @@
     <details><summary>Can I order something that is not in the catalog?</summary><p>Yes. Open Special Requests at the end of the catalog and describe the brand, dietary need or quantity you want, for example a specific size of shrimp or a sugar-free milk. We quote it for you before you pay.</p></details>
     <details><summary>Are the eggs local?</summary><p>The organic eggs in our catalog come from Orchard Los Cabos, our own farm, so they travel a few kilometers to your fridge instead of across the country.</p></details>
     <details><summary>What grocery stores are in Cabo, and is it worth going yourself?</summary><p>Cabo San Lucas and San José del Cabo have large supermarkets and warehouse clubs, including Costco, Walmart, Chedraui and La Comer. They are well stocked, but on arrival day going yourself means a car, parking, checkout lines, labels in Spanish and carrying cases of water, beer and ice into the villa. Ordering online lets you skip all of that and start your vacation at the pool instead.</p></details>
-    <details><summary>How do I pay, and is tax included?</summary><p>After you send your order we email you a secure Stripe payment link. Choose a 30% deposit online with the remaining 70% in cash on delivery, or pay 100% online. An 8.5% tax applies only to the amount paid online; the cash paid on delivery is tax-free. Prices are in US dollars.</p></details>
+    <details><summary>How do I pay, and is tax included?</summary><p>After you send your order we email you a secure Stripe payment link. Choose a 30% deposit online with the remaining 70% in cash on delivery, or pay 100% online. A 8.9% tax applies only to the amount paid online; the cash paid on delivery is tax-free. Prices are in US dollars.</p></details>
   </div>
 </section>
 <!-- FAQ:END -->
@@ -705,11 +705,11 @@
       <div class="pay-toggle" id="payToggleModal">
         <label class="active" data-val="deposit">
           <input type="radio" name="payTypeModal" value="deposit" checked>
-          <span>30% deposit now (+8.5% tax) — remainder in cash on delivery</span>
+          <span>30% deposit now (+8.9% tax) — remainder in cash on delivery</span>
         </label>
         <label data-val="full">
           <input type="radio" name="payTypeModal" value="full">
-          <span>Pay 100% now, online (+8.5% tax)</span>
+          <span>Pay 100% now, online (+8.9% tax)</span>
         </label>
       </div>
     </div>
@@ -762,7 +762,11 @@
 
 <script>
 // ---------- BUSINESS CONFIG ----------
-const TAX_RATE = 0.085; // 8.5% applied only to the amount paid now, online
+// 8.9% applied only to the amount paid now, online. El dueño lo fijó para todo
+// CTB el 12-oct-2026; en ctb-platform vive en src/data/tax.ts (CTB_TAX_RATE).
+const TAX_RATE = 0.089;
+// Derivada, para que ninguna frase pueda contradecir a la aritmética.
+const TAX_PCT = `${Number((TAX_RATE * 100).toFixed(1))}%`;
 const BUSINESS_EMAIL = "cabotravelexperiences@privatechefloscabos.com";
 
 // Tiered delivery fees based on purchase amount (items subtotal) and zone.
@@ -1191,8 +1195,8 @@ function renderCart(){
 
   const feeLabelTxt = `Delivery (${zone})`;
   const dueNowLabelTxt = payType === 'full'
-    ? 'Due now (100% + 8.5% tax)'
-    : 'Due now (30% + 8.5% tax)';
+    ? `Due now (100% + ${TAX_PCT} tax)`
+    : `Due now (30% + ${TAX_PCT} tax)`;
 
   document.getElementById('feeLabel').textContent = feeLabelTxt;
   document.getElementById('sumItems').textContent = fmt(itemsTotal);
