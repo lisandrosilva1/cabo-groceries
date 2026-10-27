@@ -497,9 +497,11 @@
 
       <div class="totals-row"><span>Items</span><span id="sumItems">$0.00</span></div>
       <div class="totals-row"><span id="feeLabel">Delivery</span><span id="sumDelivery">$0.00</span></div>
+      <div class="totals-row" id="holidayRow" style="display:none"><span class="holiday-label">Holiday rate (+30% on services)</span><span id="sumHoliday">$0.00</span></div>
       <div class="totals-row grand"><span>Order total</span><span id="sumGrand">$0.00</span></div>
       <div class="totals-row due-now"><span id="dueNowLabel">Due now</span><span id="sumDueNow">$0.00</span></div>
       <div class="totals-row due-later" id="dueLaterRow"><span>Remaining in cash (on delivery)</span><span id="sumDueLater">$0.00</span></div>
+      <p class="hint holiday-note" id="holidayNote">Dec 24 – Jan 5: holiday rate, +30% on services</p>
 
       <div class="info-card">
         <h2>Your details &amp; delivery</h2>
@@ -716,9 +718,11 @@
 
     <div class="totals-row"><span>Items</span><span id="modalSumItems">$0.00</span></div>
     <div class="totals-row"><span id="modalFeeLabel">Delivery</span><span id="modalSumDelivery">$0.00</span></div>
+    <div class="totals-row" id="modalHolidayRow" style="display:none"><span class="holiday-label">Holiday rate (+30% on services)</span><span id="modalSumHoliday">$0.00</span></div>
     <div class="totals-row grand"><span>Order total</span><span id="modalSumGrand">$0.00</span></div>
     <div class="totals-row due-now"><span id="modalDueNowLabel">Due now</span><span id="modalSumDueNow">$0.00</span></div>
     <div class="totals-row due-later" id="modalDueLaterRow"><span>Remaining in cash (on delivery)</span><span id="modalSumDueLater">$0.00</span></div>
+    <p class="hint holiday-note" id="modalHolidayNote">Dec 24 – Jan 5: holiday rate, +30% on services</p>
 
     <div class="info-card">
       <h2>Your details &amp; delivery</h2>
@@ -767,6 +771,26 @@
 const TAX_RATE = 0.089;
 // Derivada, para que ninguna frase pueda contradecir a la aritmética.
 const TAX_PCT = `${Number((TAX_RATE * 100).toFixed(1))}%`;
+// Tarifa de fiestas (dueño, 27-oct-2026): +30 % solo sobre servicios —aquí, el envío
+// (getFee)— si la fecha de entrega cae entre el 24-dic y el 5-ene, cada año. Los
+// productos del catálogo son mercancía y nunca llevan recargo. Va al subtotal antes
+// del impuesto. Única fuente de la tasa y la ventana en esta página.
+const HOLIDAY = { rate: 0.30, from: [12,24], to: [1,5] };
+const HOLIDAY_MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const HOLIDAY_PCT = `${Math.round(HOLIDAY.rate * 100)}%`;
+const HOLIDAY_LABEL = `Holiday rate (+${HOLIDAY_PCT} on services)`;
+const HOLIDAY_NOTE = `${HOLIDAY_MONTHS[HOLIDAY.from[0]-1]} ${HOLIDAY.from[1]} – ${HOLIDAY_MONTHS[HOLIDAY.to[0]-1]} ${HOLIDAY.to[1]}: holiday rate, +${HOLIDAY_PCT} on services`;
+function isHolidayDate(iso){
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso || '');
+  if(!m) return false;
+  const md = (+m[2]) * 100 + (+m[3]);
+  const from = HOLIDAY.from[0] * 100 + HOLIDAY.from[1];
+  const to = HOLIDAY.to[0] * 100 + HOLIDAY.to[1];
+  return from <= to ? (md >= from && md <= to) : (md >= from || md <= to);
+}
+function holidaySurcharge(serviceSubtotal, iso){
+  return isHolidayDate(iso) ? Math.round(serviceSubtotal * HOLIDAY.rate * 100) / 100 : 0;
+}
 const BUSINESS_EMAIL = "cabotravelexperiences@privatechefloscabos.com";
 
 // Tiered delivery fees based on purchase amount (items subtotal) and zone.
@@ -1149,7 +1173,9 @@ function computeTotals(){
   const lines = getCartLines();
   const itemsTotal = lines.reduce((s,l)=>s+l.total, 0);
   const fee = getFee(itemsTotal, zone);
-  const orderTotal = itemsTotal + fee;
+  const deliveryDate = pickFieldValue('custDate','custDateModal');
+  const holiday = holidaySurcharge(fee, deliveryDate); // solo el envío; los productos no
+  const orderTotal = itemsTotal + fee + holiday;
 
   let dueNow, dueLater, tax, taxBase;
   if(payType === 'full'){
@@ -1163,11 +1189,21 @@ function computeTotals(){
     dueNow = taxBase + tax;
     dueLater = orderTotal * 0.70;
   }
-  return {lines, itemsTotal, fee, orderTotal, tax, dueNow, dueLater};
+  return {lines, itemsTotal, fee, holiday, deliveryDate, orderTotal, tax, dueNow, dueLater};
 }
 
 function renderCart(){
-  const {lines, itemsTotal, fee, orderTotal, dueNow, dueLater} = computeTotals();
+  const {lines, itemsTotal, fee, holiday, deliveryDate, orderTotal, dueNow, dueLater} = computeTotals();
+
+  [['holidayRow','sumHoliday','holidayNote'],['modalHolidayRow','modalSumHoliday','modalHolidayNote']].forEach(([rowId, amtId, noteId])=>{
+    const row = document.getElementById(rowId);
+    row.style.display = holiday ? 'flex' : 'none';
+    row.querySelector('.holiday-label').textContent = HOLIDAY_LABEL;
+    document.getElementById(amtId).textContent = fmt(holiday);
+    const note = document.getElementById(noteId);
+    note.textContent = HOLIDAY_NOTE;
+    note.style.display = deliveryDate ? 'none' : '';
+  });
 
   const renderInto = (containerId)=>{
     const el = document.getElementById(containerId);
@@ -1255,6 +1291,11 @@ CONTACT_FIELD_PAIRS.forEach(([id1, id2])=>{
   el2.addEventListener('input', ()=>{ el1.value = el2.value; });
 });
 
+// La fecha decide la tarifa de fiestas: recalcular al cambiarla en cualquiera de las dos copias.
+['custDate','custDateModal'].forEach(id=>{
+  ['input','change'].forEach(ev=>document.getElementById(id).addEventListener(ev, ()=>renderCart()));
+});
+
 function validateContactInfo(c){
   if(!c.name) return 'Please enter your full name.';
   if(!c.phone) return 'Please enter your phone / WhatsApp number.';
@@ -1266,7 +1307,7 @@ function validateContactInfo(c){
 }
 
 function buildOrderText(contact){
-  const {lines, itemsTotal, fee, orderTotal, tax, dueNow, dueLater} = computeTotals();
+  const {lines, itemsTotal, fee, holiday, orderTotal, tax, dueNow, dueLater} = computeTotals();
   let txt = "NEW GROCERIES ORDER — Cabo Travel Boutique\n\n";
   txt += `Customer: ${contact.name}\n`;
   txt += `Phone / WhatsApp: ${contact.phone}\n`;
@@ -1286,6 +1327,7 @@ function buildOrderText(contact){
   txt += `\nDelivery area: ${zone}`;
   txt += `\nItems subtotal: ${fmt(itemsTotal)}`;
   txt += `\nDelivery: ${fmt(fee)}`;
+  if(holiday) txt += `\n${HOLIDAY_LABEL}: ${fmt(holiday)}`;
   txt += `\nOrder total: ${fmt(orderTotal)}`;
   txt += `\nPayment method chosen: ${payType === 'full' ? 'Full payment 100% (online)' : '30% deposit (online) + remainder in cash'}`;
   txt += `\nTax (8.5% on the amount paid online): ${fmt(tax)}`;
