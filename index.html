@@ -1330,7 +1330,7 @@ function buildOrderText(contact){
   if(holiday) txt += `\n${HOLIDAY_LABEL}: ${fmt(holiday)}`;
   txt += `\nOrder total: ${fmt(orderTotal)}`;
   txt += `\nPayment method chosen: ${payType === 'full' ? 'Full payment 100% (online)' : '30% deposit (online) + remainder in cash'}`;
-  txt += `\nTax (8.5% on the amount paid online): ${fmt(tax)}`;
+  txt += `\nTax (${TAX_PCT} on the amount paid online): ${fmt(tax)}`;
   txt += `\nTO CHARGE NOW (send Stripe link for this amount): ${fmt(dueNow)}`;
   if(payType !== 'full'){
     txt += `\nRemainder in cash on delivery (tax-free): ${fmt(dueLater)}`;
